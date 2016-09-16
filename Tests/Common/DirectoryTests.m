@@ -158,7 +158,7 @@
 {
 	Directory *dir = [Directory directoryWithPath:@"/Library/Preferences/"];
 	
-	assertThat([dir pathComponents], hasCountOf(3));
+    XCTAssertEqual([[dir pathComponents] count], 3);
 	XCTAssertEqualObjects([dir name], @"Preferences");
 	XCTAssertEqualObjects([dir path], @"/Library/Preferences");
 	XCTAssertEqualObjects([dir absolutePath], @"/Library/Preferences");
@@ -168,7 +168,7 @@
 
 - (void)testDescriptionContainsPath
 {
-	assertThat([_testDirectory description], containsString([_testDirectory absolutePath]));
+    XCTAssert([[_testDirectory description] containsString:[_testDirectory absolutePath]]);
 }
 
 #pragma mark Tests for path and absolutePath
@@ -434,7 +434,7 @@
 - (void)testReturnsNilWhenInRootAndAskedForParentDirectory
 {
 	Directory *dir = [Directory directoryWithPath:@"/"];
-	assertThat([dir parent], is(nilValue()));
+	XCTAssert([dir parent] == nil);
 }
 
 #if !TARGET_OS_IPHONE
@@ -496,7 +496,7 @@
 	NSArray *contents = [_fileManager contentsOfDirectoryAtPath:[dir absolutePath] error:nil];
 	
 	XCTAssertTrue([_fileManager fileExistsAtPath:[dir absolutePath]], @"Folder should still exist after deleting contents");
-	assertThat(contents, hasCountOf(0));
+    XCTAssertTrue([contents count] == 0);
 }
 
 - (void)testCannotDeleteContentsIfPathDoesNotExistButDoesNotThrow
@@ -582,8 +582,8 @@
 	Directory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
 	NSArray *items = [dir items];
 	
-	assertThat(items, is(notNilValue()));
-	assertThat(items, hasCountOf(0));
+    XCTAssertNotNil(items);
+    XCTAssertTrue([items count] == 0);
 }
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForItems
@@ -597,15 +597,15 @@
 	Directory *dir = [_testDirectory subdirectory:@"Folder B"];
 	NSArray *items = [dir items];
 	
-	assertThat(items, is(notNilValue()));
+    XCTAssertNotNil(items);
 	XCTAssertTrue([items count] == 4);
-	assertThat(items[0], isA([File class]));
+    XCTAssertTrue([items[0] isKindOfClass:[File class]]);
 	XCTAssertEqualObjects([items[0] name], @"File 3");
-	assertThat(items[1], isA([File class]));
+	XCTAssertTrue([items[1] isKindOfClass:[File class]]);
 	XCTAssertEqualObjects([items[1] name], @"File 4");
-	assertThat(items[2], isA([File class]));
+    XCTAssertTrue([items[2] isKindOfClass:[File class]]);
 	XCTAssertEqualObjects([items[2] name], @"File 5");
-	assertThat(items[3], isA([Directory class]));
+    XCTAssertTrue([items[3] isKindOfClass:[File class]]);
 	XCTAssertEqualObjects([items[3] name], @"Subfolder 1");
 }
 
@@ -616,8 +616,8 @@
 	Directory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
 	NSArray *items = [dir files];
 	
-	assertThat(items, is(notNilValue()));
-	assertThat(items, hasCountOf(0));
+    XCTAssertNotNil(items);
+	XCTAssertTrue([items count] == 0);
 }
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForFiles
@@ -631,14 +631,14 @@
 	Directory *dir = [_testDirectory subdirectory:@"Folder B"];
 	NSArray *items = [dir files];
 	
-	assertThat(items, is(notNilValue()));
-	assertThat(items, hasCountOf(3));
-	assertThat(items[0], isA([File class]));
-	assertThat([items[0] name], is(@"File 3"));
-	assertThat(items[1], isA([File class]));
-	assertThat([items[1] name], is(@"File 4"));
-	assertThat(items[2], isA([File class]));
-	assertThat([items[2] name], is(@"File 5"));
+    XCTAssertNotNil(items);
+	XCTAssertTrue([items count] == 3);
+    XCTAssertTrue([items[0] isKindOfClass:[File class]]);
+	XCTAssertEqual([items[0] name], @"File 3");
+	XCTAssertTrue([items[1] isKindOfClass:[File class]]);
+	XCTAssertEqual([items[1] name], @"File 4");
+	XCTAssertTrue([items[2] isKindOfClass:[File class]]);
+	XCTAssertEqual([items[2] name], @"File 5");
 }
 
 #pragma mark Tests for subdirectories
@@ -648,8 +648,8 @@
 	Directory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
 	NSArray *items = [dir subdirectories];
 	
-	assertThat(items, is(notNilValue()));
-	assertThat(items, hasCountOf(0));
+    XCTAssertNotNil(items);
+	XCTAssertTrue([items count] == 0);
 }
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForSubdirectories
@@ -663,10 +663,10 @@
 	Directory *dir = [_testDirectory subdirectory:@"Folder B"];
 	NSArray *items = [dir subdirectories];
 	
-	assertThat(items, is(notNilValue()));
-	assertThat(items, hasCountOf(1));
-	assertThat(items[0], isA([Directory class]));
-	assertThat([items[0] name], is(@"Subfolder 1"));
+    XCTAssertNotNil(items);
+	XCTAssertTrue([items count] == 1);
+    XCTAssertTrue([items[0] isKindOfClass:[Directory class]]);
+	XCTAssertEqual([items[0] name], @"Subfolder 1");
 }
 
 #pragma mark Tests for subdirectory: and file:
@@ -727,7 +727,7 @@
 	
 	XCTAssertTrue(exists, @"File at the specified path should still exist");
 	XCTAssertTrue(!isDirectory, @"File at the specified path should NOT be a directory");
-	assertThat(returnedDir, is(nilValue()));
+    XCTAssertNil(returnedDir);
 }
 
 #pragma mark Tests for copyContentsTo: and copyContentsTo:andOverwrite:
@@ -769,9 +769,9 @@
 	NSArray *destinationSubdirectoryContents = [self contentsAtPath:[destinationSubdirectory absolutePath]];
 	
 	XCTAssertEqualObjects(destinationContents, sourceContents);
-	assertThat(destinationSubdirectoryContents, hasCountOf(2));
-	assertThat(destinationSubdirectoryContents, hasItem(@"File 6"));
-	assertThat(destinationSubdirectoryContents, hasItem(@"File 7"));
+	XCTAssertTrue([destinationSubdirectoryContents count] == 2);
+    XCTAssertTrue([destinationSubdirectoryContents containsObject:@"File 6"]);
+    XCTAssertTrue([destinationSubdirectoryContents containsObject:@"File 7"]);
 	XCTAssertEqualObjects(result, destination);
 }
 

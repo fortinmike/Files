@@ -64,7 +64,7 @@ File *_imageFile;
 {
 	NSURL *url = [[File fileWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"] fileURL];
 	XCTAssertTrue([url isFileURL]);
-	assertThat([url description], containsString(@"file://"));
+    XCTAssertTrue([[url description] containsString:@"file://"]);
 }
 
 #pragma mark File Attributes tests
@@ -534,7 +534,7 @@ File *_imageFile;
 	
 	[file archiveAsXMLPlist:object];
 	
-	BOOL validXML = [XMLValidatorValidatorValidator validateXML:[file readString]];
+	BOOL validXML = [XMLValidator validateXML:[file readString]];
 	id unarchivedObject1 = [file unarchiveFromXMLPlist];
 	id unarchivedObject2 = [file unarchive];
 	
