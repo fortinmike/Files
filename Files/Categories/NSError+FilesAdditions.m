@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 irradiated.net. All rights reserved.
 //
 
-#import "NSError+Additions.h"
-#import "NSException+Additions.h"
+#import "NSError+FilesAdditions.h"
+#import "NSException+FilesAdditions.h"
 
 #define MFAppErrorDomain @"MFAppErrorDomain"
 

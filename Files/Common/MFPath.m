@@ -8,10 +8,8 @@
 
 #import "MFPath.h"
 #import "MFDirectory.h"
-#import "NSString+FilesAdditions.h"
 #import "NSError+FilesAdditions.h"
 #import "NSException+FilesAdditions.h"
-#import "NSString+Regexer.h"
 
 @implementation MFPath
 {
@@ -25,19 +23,29 @@
 	self = [super init];
 	if (self)
 	{
-		BOOL isNil = (path == nil);
-		BOOL hasWrongPrefix = !([path hasPrefix:@"/"] || [path hasPrefix:@"~/"]) && ![path isEqualToString:@"~"];
-		BOOL containsSuccessiveSlashes = [path rx_matchesPattern:@"/{2,}"]; // Will match two or more successive slashes
-		
-		if (isNil || hasWrongPrefix || containsSuccessiveSlashes)
+		if (path == nil || [self candidateHasInvalidPrefix:path] || [self candidateContainsSuccessiveSlashes:path])
 		{
 			NSString *reason = [NSString stringWithFormat:@"The provided path is invalid: %@", path];
-			@throw [NSException exceptionWithReason:reason];
+			@throw [NSException exceptionWithReason:@"%@", reason];
 		}
 		
 		_path = [path copy];
 	}
 	return self;
+}
+
+#pragma mark Private Validation
+
+- (BOOL)candidateHasInvalidPrefix:(NSString *)candidatePath
+{
+    return !([candidatePath hasPrefix:@"/"] || [candidatePath hasPrefix:@"~/"]) && ![candidatePath isEqualToString:@"~"];
+}
+
+// TODO: Needs testing!
+- (BOOL)candidateContainsSuccessiveSlashes:(NSString *)candidatePath
+{
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"/{2,}" options:NSRegularExpressionCaseInsensitive error:nil];
+    return [regex matchesInString:candidatePath options:0 range:NSMakeRange(0, [candidatePath length])] > 0;
 }
 
 #pragma mark Equality
@@ -161,7 +169,7 @@
 	
 	if (error)
 	{
-		DDLogError(@"Could not obtain item attributes for path %@. Error: %@", [self path], error);
+		NSLog(@"Could not obtain item attributes for path %@. Error: %@", [self path], error);
 		return nil;
 	}
 	
@@ -189,7 +197,7 @@
 	
 	if (!attribute)
 	{
-		DDLogError(@"Could not obtain file attribute %@ for item at path %@", fileAttributeKey, [self path]);
+		NSLog(@"Could not obtain file attribute %@ for item at path %@", fileAttributeKey, [self path]);
 		return nil;
 	}
 	
@@ -201,7 +209,7 @@
 	NSError *error;
 	[[self fileURL] setResourceValue:@(exclude) forKey:NSURLIsExcludedFromBackupKey error:&error];
 	
-	if (error) DDLogError(@"Could not exclude %@ from backup. Error: %@", [self path], error);
+	if (error) NSLog(@"Could not exclude %@ from backup. Error: %@", [self path], error);
 }
 
 #pragma mark File System Attributes
@@ -218,7 +226,7 @@
 	
 	if (error)
 	{
-		DDLogError(@"Could not obtain file system attributes for path %@", [self path]);
+		NSLog(@"Could not obtain file system attributes for path %@", [self path]);
 		return nil;
 	}
 	
@@ -241,7 +249,7 @@
 	
 	if (!attribute)
 	{
-		DDLogError(@"Could not obtain file system attribute %@ for item at path %@", fileSystemAttributeKey, [self path]);
+		NSLog(@"Could not obtain file system attribute %@ for item at path %@", fileSystemAttributeKey, [self path]);
 		return nil;
 	}
 	
@@ -303,12 +311,9 @@
 	NSFileManager *manager = [NSFileManager defaultManager];
 	BOOL success = [manager removeItemAtPath:[self absolutePath] error:&error];
 	
-	if (error) DDLogError(@"%@", error);
+	if (error) NSLog(@"%@", error);
 	
-	BOOL completeSuccess = (success && !error);
-	if (completeSuccess && !silenceLogging) DDLogVerbose(@"Deleted item %@", [self path]);
-	
-	return completeSuccess;
+	return success && !error;
 }
 
 // Overriden with more concrete parameter and return types
@@ -322,18 +327,18 @@
 		if (!deleted)
 		{
 			NSString *description = [NSString stringWithFormat:@"Could not delete item at path %@", [destination absolutePath]];
-			DDLogError(@"%@", description);
-			if (error) *error = [NSError errorWithDescription:description];
+			NSLog(@"%@", description);
+			if (error) *error = [NSError errorWithDescription:@"%@", description];
 			return nil;
 		}
 	}
 	
 	MFDirectory *parent = [destination parent];
-	if ([parent createAndSilenceLogging:YES] == nil)
+	if ([parent create] == nil)
 	{
 		NSString *description = [NSString stringWithFormat:@"Could not create parent directory %@", [parent absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return nil;
 	}
 	
@@ -342,7 +347,7 @@
 	
 	if (innerError)
 	{
-		DDLogError(@"%@", [innerError description]);
+		NSLog(@"%@", [innerError description]);
 		if (error) *error = innerError;
 		return nil;
 	}

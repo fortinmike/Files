@@ -9,7 +9,7 @@
 #import "MFFile.h"
 #import "MFDirectory.h"
 #import "NSError+FilesAdditions.h"
-#import "NSException+Additions.h"
+#import "NSException+FilesAdditions.h"
 
 @implementation MFFile
 
@@ -83,8 +83,6 @@
 	NSFileManager *manager = [NSFileManager defaultManager];
 	BOOL fileCreated = [manager createFileAtPath:[self absolutePath] contents:nil attributes:nil];
 	
-	if (fileCreated) DDLogVerbose(@"Created file %@", [self path]);
-	
 	return (fileCreated ? self : nil);
 }
 
@@ -127,12 +125,10 @@
 	
 	if (path == nil || innerError)
 	{
-		DDLogError(@"%@", [innerError description]);
+		NSLog(@"%@", [innerError description]);
 		if (error) *error = innerError;
 		return nil;
 	}
-	
-	if (!silenceLogging) DDLogVerbose(@"Copied file %@ to %@", [self path], [destination path]);
 	
 	return [MFFile fileWithPath:[path absolutePath]];
 }
@@ -159,8 +155,8 @@
 	if (![self isFile])
 	{
 		NSString *description = [NSString stringWithFormat:@"Cannot move file from path %@ because path is not a file", [self absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return nil;
 	}
 	
@@ -169,7 +165,7 @@
 	
 	if (innerError)
 	{
-		DDLogError(@"%@", [innerError description]);
+		NSLog(@"%@", [innerError description]);
 		if (error) *error = innerError;
 		return nil;
 	}
@@ -179,12 +175,10 @@
 	if (!deleted)
 	{
 		NSString *description = [NSString stringWithFormat:@"Could not delete source file %@ after move", [self absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return nil;
 	}
-	
-	DDLogVerbose(@"Moved file from %@ to %@", [self path], [destination path]);
 	
 	return outputFile;
 }
@@ -203,8 +197,8 @@
 	if (!data)
 	{
 		NSString *description = [NSString stringWithFormat:@"Could not read data from %@", [self absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return nil;
 	}
 	
@@ -233,8 +227,8 @@
 	if (!overwrite && [self itemExists])
 	{
 		NSString *description = [NSString stringWithFormat:@"Can't write data: A file already exists at path %@", [self absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return NO;
 	}
 	
@@ -243,8 +237,8 @@
 		if (![self deleteAndSilenceLogging:YES])
 		{
 			NSString *description = [NSString stringWithFormat:@"Could not delete existing file at path %@", [self absolutePath]];
-			DDLogError(@"%@", description);
-			if (error) *error = [NSError errorWithDescription:description];
+			NSLog(@"%@", description);
+			if (error) *error = [NSError errorWithDescription:@"%@", description];
 			return NO;
 		}
 	}
@@ -253,15 +247,12 @@
 	if (![parent create])
 	{
 		NSString *description = [NSString stringWithFormat:@"Could not create intermediary directories for path %@", [parent absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return NO;
 	}
 	
-	BOOL success = [data writeToFile:[self absolutePath] atomically:YES];
-	if (success && !silenceLogging) DDLogVerbose(@"Wrote data to file %@", [self path]);
-	
-	return success;
+	return [data writeToFile:[self absolutePath] atomically:YES];
 }
 
 - (NSOutputStream *)outputStreamToAppend:(BOOL)append
@@ -343,8 +334,6 @@
 		return NO;
 	}
 	
-	DDLogVerbose(@"Archived object to %@", [self path]);
-	
 	return success;
 }
 
@@ -368,20 +357,18 @@
 		if (!object)
 		{
 			NSString *description = [NSString stringWithFormat:@"No object returned after unarchiving data from %@", [self absolutePath]];
-			DDLogError(@"%@", description);
-			if (error) *error = [NSError errorWithDescription:description];
+			NSLog(@"%@", description);
+			if (error) *error = [NSError errorWithDescription:@"%@", description];
 		}
 	}
 	@catch (NSException *exception)
 	{
 		NSString *description = [NSString stringWithFormat:@"Exception unarchiving data from file %@ %@", [self absolutePath], exception];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 	}
 	@finally
 	{
-		if (object) DDLogVerbose(@"Unarchived object from file %@", [self path]);
-		
 		return object;
 	}
 }
@@ -397,7 +384,7 @@
 {
 	NSError *error;
 	NSString *string = [NSString stringWithContentsOfFile:[self absolutePath] encoding:encoding error:&error];
-	if (error) DDLogError(@"Could not read contents of file %@ with encoding %lu", [self path], (unsigned long)encoding);
+	if (error) NSLog(@"Could not read contents of file %@ with encoding %lu", [self path], (unsigned long)encoding);
 	return string;
 }
 
@@ -406,7 +393,7 @@
 - (NSArray *)readArray
 {
 	NSArray *array = [NSArray arrayWithContentsOfFile:[self absolutePath]];
-	if (!array) DDLogError(@"Could not load array from file %@", [self path]);
+	if (!array) NSLog(@"Could not load array from file %@", [self path]);
 	return array;
 }
 
@@ -426,7 +413,7 @@
 - (NSDictionary *)readDictionary
 {
 	NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[self absolutePath]];
-	if (!dictionary) DDLogError(@"Could not load dictionary from file %@", [self path]);
+	if (!dictionary) NSLog(@"Could not load dictionary from file %@", [self path]);
 	return dictionary;
 }
 

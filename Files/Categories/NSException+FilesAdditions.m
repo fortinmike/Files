@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Michaël Fortin. All rights reserved.
 //
 
-#import "NSException+Additions.h"
+#import "NSException+FilesAdditions.h"
 
 @implementation NSException (FilesAdditions)
 

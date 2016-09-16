@@ -84,7 +84,7 @@
 	
 	if (error)
 	{
-		DDLogError(@"Error reading contents of directory at path: %@ %@", [self absolutePath], [error description]);
+		NSLog(@"Error reading contents of directory at path: %@ %@", [self absolutePath], [error description]);
 		return nil;
 	}
 	
@@ -178,34 +178,25 @@
 	for (MFPath *item in items)
 		success &= [item deleteAndSilenceLogging:YES];
 	
-	if (success) DDLogVerbose(@"Deleted contents of directory %@", [self path]);
-	
 	return success;
 }
 
 - (MFDirectory *)create
 {
-	return [self createAndSilenceLogging:NO];
-}
-
-- (MFDirectory *)createAndSilenceLogging:(BOOL)silenceLogging
-{
-	if ([self isDirectory]) return self;
-	
-	NSFileManager *manager = [NSFileManager defaultManager];
-	
-	NSError *error = nil;
-	[manager createDirectoryAtPath:[self absolutePath] withIntermediateDirectories:YES attributes:nil error:&error];
-	
-	if (error)
-	{
-		DDLogError(@"Could not create directory: %@", error);
-		return nil;
-	}
-	
-	if (!silenceLogging) DDLogVerbose(@"Created directory %@", [self path]);
-	
-	return self;
+    if ([self isDirectory]) return self;
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    
+    NSError *error = nil;
+    [manager createDirectoryAtPath:[self absolutePath] withIntermediateDirectories:YES attributes:nil error:&error];
+    
+    if (error)
+    {
+        NSLog(@"Could not create directory: %@", error);
+        return nil;
+    }
+    
+    return self;
 }
 
 - (MFDirectory *)copyContentsTo:(MFDirectory *)destination
@@ -229,16 +220,16 @@
 	if (![self isDirectory])
 	{
 		NSString *description = [NSString stringWithFormat:@"Cannot copy directory from path %@ because it is not a directory!", [self absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return nil;
 	}
 		
 	if (![destination create])
 	{
 		NSString *description = [NSString stringWithFormat:@"Could not create destination directory %@.", [destination absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return nil;
 	}
 	
@@ -265,12 +256,10 @@
 	if ([errors count] > 0)
 	{
 		NSError *innerError = errors[0];
-		DDLogError(@"%@", [innerError description]);
+		NSLog(@"%@", [innerError description]);
 		if (error) *error = innerError;
 		return nil;
 	}
-	
-	DDLogVerbose(@"Copied contents of directory %@ to %@", [self path], [destination path]);
 	
 	return destination;
 }
@@ -307,8 +296,6 @@
 		return nil;
 	}
 	
-	if (!silenceLogging) DDLogVerbose(@"Copied directory %@ to %@", [self path], [destination path]);
-	
 	return [MFDirectory directoryWithPath:[path absolutePath]];
 }
 
@@ -333,8 +320,8 @@
 	if (![self isDirectory])
 	{
 		NSString *description = [NSString stringWithFormat:@"Cannot move directory from path %@ because path is not a directory", [self absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return nil;
 	}
 	
@@ -352,12 +339,10 @@
 	if (!deleted)
 	{
 		NSString *description = [NSString stringWithFormat:@"Could not delete source directory %@ after move", [self absolutePath]];
-		DDLogError(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:description];
+		NSLog(@"%@", description);
+		if (error) *error = [NSError errorWithDescription:@"%@", description];
 		return nil;
 	}
-	
-	DDLogVerbose(@"Moved directory %@ to %@", [self path], [destination path]);
 	
 	return outputDirectory;
 }

@@ -41,7 +41,6 @@
 
 - (BOOL)deleteContents;
 - (MFDirectory *)create; // Creates the directory if it does not exist.
-- (MFDirectory *)createAndSilenceLogging:(BOOL)silenceLogging;
 - (MFDirectory *)copyContentsTo:(MFDirectory *)destination; // Copies the contents of the directory in another directory.
 - (MFDirectory *)copyContentsTo:(MFDirectory *)destination overwrite:(BOOL)overwrite;
 - (MFDirectory *)copyTo:(MFDirectory *)destination; // Copies the directory in another directory.
