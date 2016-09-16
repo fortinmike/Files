@@ -605,7 +605,7 @@
 	XCTAssertEqualObjects([items[1] name], @"File 4");
     XCTAssertTrue([items[2] isKindOfClass:[File class]]);
 	XCTAssertEqualObjects([items[2] name], @"File 5");
-    XCTAssertTrue([items[3] isKindOfClass:[File class]]);
+    XCTAssertTrue([items[3] isKindOfClass:[Directory class]]);
 	XCTAssertEqualObjects([items[3] name], @"Subfolder 1");
 }
 
@@ -634,11 +634,11 @@
     XCTAssertNotNil(items);
 	XCTAssertTrue([items count] == 3);
     XCTAssertTrue([items[0] isKindOfClass:[File class]]);
-	XCTAssertEqual([items[0] name], @"File 3");
+	XCTAssertEqualObjects([items[0] name], @"File 3");
 	XCTAssertTrue([items[1] isKindOfClass:[File class]]);
-	XCTAssertEqual([items[1] name], @"File 4");
+	XCTAssertEqualObjects([items[1] name], @"File 4");
 	XCTAssertTrue([items[2] isKindOfClass:[File class]]);
-	XCTAssertEqual([items[2] name], @"File 5");
+	XCTAssertEqualObjects([items[2] name], @"File 5");
 }
 
 #pragma mark Tests for subdirectories
@@ -666,7 +666,7 @@
     XCTAssertNotNil(items);
 	XCTAssertTrue([items count] == 1);
     XCTAssertTrue([items[0] isKindOfClass:[Directory class]]);
-	XCTAssertEqual([items[0] name], @"Subfolder 1");
+	XCTAssertEqualObjects([items[0] name], @"Subfolder 1");
 }
 
 #pragma mark Tests for subdirectory: and file:
