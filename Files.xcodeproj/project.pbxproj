@@ -9,15 +9,15 @@
 /* Begin PBXBuildFile section */
 		4C129AA91D8B4CE600531DFB /* Files.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C129A9F1D8B4CE600531DFB /* Files.framework */; };
 		4C129AB01D8B4CE600531DFB /* Files.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129AA21D8B4CE600531DFB /* Files.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4C129AC31D8B4E1700531DFB /* MFDirectory.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129ABA1D8B4E1700531DFB /* MFDirectory.h */; };
-		4C129AC41D8B4E1700531DFB /* MFDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ABB1D8B4E1700531DFB /* MFDirectory.m */; };
-		4C129AC51D8B4E1700531DFB /* MFFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129ABC1D8B4E1700531DFB /* MFFile.h */; };
-		4C129AC61D8B4E1700531DFB /* MFFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ABD1D8B4E1700531DFB /* MFFile.m */; };
-		4C129AC71D8B4E1700531DFB /* MFPath.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129ABE1D8B4E1700531DFB /* MFPath.h */; };
-		4C129AC81D8B4E1700531DFB /* MFPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ABF1D8B4E1700531DFB /* MFPath.m */; };
-		4C129AD81D8B4ED700531DFB /* MFDirectoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AD51D8B4ED700531DFB /* MFDirectoryTests.m */; };
-		4C129AD91D8B4ED700531DFB /* MFFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AD71D8B4ED700531DFB /* MFFileTests.m */; };
-		4C129ADE1D8B4F5E00531DFB /* MFTestEnvironmentHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ADD1D8B4F5E00531DFB /* MFTestEnvironmentHelpers.m */; };
+		4C129AC31D8B4E1700531DFB /* Directory.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129ABA1D8B4E1700531DFB /* Directory.h */; };
+		4C129AC41D8B4E1700531DFB /* Directory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ABB1D8B4E1700531DFB /* Directory.m */; };
+		4C129AC51D8B4E1700531DFB /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129ABC1D8B4E1700531DFB /* File.h */; };
+		4C129AC61D8B4E1700531DFB /* File.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ABD1D8B4E1700531DFB /* File.m */; };
+		4C129AC71D8B4E1700531DFB /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129ABE1D8B4E1700531DFB /* Path.h */; };
+		4C129AC81D8B4E1700531DFB /* Path.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ABF1D8B4E1700531DFB /* Path.m */; };
+		4C129AD81D8B4ED700531DFB /* DirectoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AD51D8B4ED700531DFB /* DirectoryTests.m */; };
+		4C129AD91D8B4ED700531DFB /* FileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AD71D8B4ED700531DFB /* FileTests.m */; };
+		4C129ADE1D8B4F5E00531DFB /* TestEnvironmentHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ADD1D8B4F5E00531DFB /* TestEnvironmentHelpers.m */; };
 		4C129AE71D8B4FD200531DFB /* NSError+FilesAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129AE11D8B4FD200531DFB /* NSError+FilesAdditions.h */; };
 		4C129AE81D8B4FD200531DFB /* NSError+FilesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AE21D8B4FD200531DFB /* NSError+FilesAdditions.m */; };
 		4C129AE91D8B4FD200531DFB /* NSException+FilesAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129AE31D8B4FD200531DFB /* NSException+FilesAdditions.h */; };
@@ -40,20 +40,20 @@
 		4C129AA31D8B4CE600531DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C129AA81D8B4CE600531DFB /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C129AAF1D8B4CE600531DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4C129ABA1D8B4E1700531DFB /* MFDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFDirectory.h; sourceTree = "<group>"; };
-		4C129ABB1D8B4E1700531DFB /* MFDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFDirectory.m; sourceTree = "<group>"; };
-		4C129ABC1D8B4E1700531DFB /* MFFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFFile.h; sourceTree = "<group>"; };
-		4C129ABD1D8B4E1700531DFB /* MFFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFFile.m; sourceTree = "<group>"; };
-		4C129ABE1D8B4E1700531DFB /* MFPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFPath.h; sourceTree = "<group>"; };
-		4C129ABF1D8B4E1700531DFB /* MFPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFPath.m; sourceTree = "<group>"; };
+		4C129ABA1D8B4E1700531DFB /* Directory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Directory.h; sourceTree = "<group>"; };
+		4C129ABB1D8B4E1700531DFB /* Directory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Directory.m; sourceTree = "<group>"; };
+		4C129ABC1D8B4E1700531DFB /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
+		4C129ABD1D8B4E1700531DFB /* File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = File.m; sourceTree = "<group>"; };
+		4C129ABE1D8B4E1700531DFB /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
+		4C129ABF1D8B4E1700531DFB /* Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Path.m; sourceTree = "<group>"; };
 		4C129AC11D8B4E1700531DFB /* MFTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFTag.h; sourceTree = "<group>"; };
 		4C129AC21D8B4E1700531DFB /* MFTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFTag.m; sourceTree = "<group>"; };
-		4C129AD41D8B4ED700531DFB /* MFDirectoryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFDirectoryTests.h; sourceTree = "<group>"; };
-		4C129AD51D8B4ED700531DFB /* MFDirectoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFDirectoryTests.m; sourceTree = "<group>"; };
-		4C129AD61D8B4ED700531DFB /* MFFileTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFFileTests.h; sourceTree = "<group>"; };
-		4C129AD71D8B4ED700531DFB /* MFFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFFileTests.m; sourceTree = "<group>"; };
-		4C129ADC1D8B4F5E00531DFB /* MFTestEnvironmentHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFTestEnvironmentHelpers.h; sourceTree = "<group>"; };
-		4C129ADD1D8B4F5E00531DFB /* MFTestEnvironmentHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFTestEnvironmentHelpers.m; sourceTree = "<group>"; };
+		4C129AD41D8B4ED700531DFB /* DirectoryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryTests.h; sourceTree = "<group>"; };
+		4C129AD51D8B4ED700531DFB /* DirectoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectoryTests.m; sourceTree = "<group>"; };
+		4C129AD61D8B4ED700531DFB /* FileTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileTests.h; sourceTree = "<group>"; };
+		4C129AD71D8B4ED700531DFB /* FileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileTests.m; sourceTree = "<group>"; };
+		4C129ADC1D8B4F5E00531DFB /* TestEnvironmentHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestEnvironmentHelpers.h; sourceTree = "<group>"; };
+		4C129ADD1D8B4F5E00531DFB /* TestEnvironmentHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestEnvironmentHelpers.m; sourceTree = "<group>"; };
 		4C129AE11D8B4FD200531DFB /* NSError+FilesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+FilesAdditions.h"; sourceTree = "<group>"; };
 		4C129AE21D8B4FD200531DFB /* NSError+FilesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+FilesAdditions.m"; sourceTree = "<group>"; };
 		4C129AE31D8B4FD200531DFB /* NSException+FilesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSException+FilesAdditions.h"; sourceTree = "<group>"; };
@@ -122,12 +122,12 @@
 		4C129AB91D8B4E1700531DFB /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				4C129ABA1D8B4E1700531DFB /* MFDirectory.h */,
-				4C129ABB1D8B4E1700531DFB /* MFDirectory.m */,
-				4C129ABC1D8B4E1700531DFB /* MFFile.h */,
-				4C129ABD1D8B4E1700531DFB /* MFFile.m */,
-				4C129ABE1D8B4E1700531DFB /* MFPath.h */,
-				4C129ABF1D8B4E1700531DFB /* MFPath.m */,
+				4C129ABA1D8B4E1700531DFB /* Directory.h */,
+				4C129ABB1D8B4E1700531DFB /* Directory.m */,
+				4C129ABC1D8B4E1700531DFB /* File.h */,
+				4C129ABD1D8B4E1700531DFB /* File.m */,
+				4C129ABE1D8B4E1700531DFB /* Path.h */,
+				4C129ABF1D8B4E1700531DFB /* Path.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -144,10 +144,10 @@
 		4C129AD31D8B4ED700531DFB /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				4C129AD41D8B4ED700531DFB /* MFDirectoryTests.h */,
-				4C129AD51D8B4ED700531DFB /* MFDirectoryTests.m */,
-				4C129AD61D8B4ED700531DFB /* MFFileTests.h */,
-				4C129AD71D8B4ED700531DFB /* MFFileTests.m */,
+				4C129AD41D8B4ED700531DFB /* DirectoryTests.h */,
+				4C129AD51D8B4ED700531DFB /* DirectoryTests.m */,
+				4C129AD61D8B4ED700531DFB /* FileTests.h */,
+				4C129AD71D8B4ED700531DFB /* FileTests.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -155,8 +155,8 @@
 		4C129ADB1D8B4F5E00531DFB /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				4C129ADC1D8B4F5E00531DFB /* MFTestEnvironmentHelpers.h */,
-				4C129ADD1D8B4F5E00531DFB /* MFTestEnvironmentHelpers.m */,
+				4C129ADC1D8B4F5E00531DFB /* TestEnvironmentHelpers.h */,
+				4C129ADD1D8B4F5E00531DFB /* TestEnvironmentHelpers.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -180,10 +180,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C129AB01D8B4CE600531DFB /* Files.h in Headers */,
-				4C129AC31D8B4E1700531DFB /* MFDirectory.h in Headers */,
-				4C129AC71D8B4E1700531DFB /* MFPath.h in Headers */,
+				4C129AC31D8B4E1700531DFB /* Directory.h in Headers */,
+				4C129AC71D8B4E1700531DFB /* Path.h in Headers */,
 				4C129AE91D8B4FD200531DFB /* NSException+FilesAdditions.h in Headers */,
-				4C129AC51D8B4E1700531DFB /* MFFile.h in Headers */,
+				4C129AC51D8B4E1700531DFB /* File.h in Headers */,
 				4C129AE71D8B4FD200531DFB /* NSError+FilesAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,10 +287,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C129AC61D8B4E1700531DFB /* MFFile.m in Sources */,
-				4C129AC41D8B4E1700531DFB /* MFDirectory.m in Sources */,
+				4C129AC61D8B4E1700531DFB /* File.m in Sources */,
+				4C129AC41D8B4E1700531DFB /* Directory.m in Sources */,
 				4C129AEA1D8B4FD200531DFB /* NSException+FilesAdditions.m in Sources */,
-				4C129AC81D8B4E1700531DFB /* MFPath.m in Sources */,
+				4C129AC81D8B4E1700531DFB /* Path.m in Sources */,
 				4C129AE81D8B4FD200531DFB /* NSError+FilesAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,9 +299,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C129AD91D8B4ED700531DFB /* MFFileTests.m in Sources */,
-				4C129AD81D8B4ED700531DFB /* MFDirectoryTests.m in Sources */,
-				4C129ADE1D8B4F5E00531DFB /* MFTestEnvironmentHelpers.m in Sources */,
+				4C129AD91D8B4ED700531DFB /* FileTests.m in Sources */,
+				4C129AD81D8B4ED700531DFB /* DirectoryTests.m in Sources */,
+				4C129ADE1D8B4F5E00531DFB /* TestEnvironmentHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

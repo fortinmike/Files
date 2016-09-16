@@ -1,5 +1,5 @@
 //
-//  MFPath.h
+//  Path.h
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2013-04-12.
@@ -11,10 +11,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class MFDirectory;
-@class MFFile;
+@class Directory;
+@class File;
 
-@interface MFPath : NSObject<NSCopying, NSCoding>
+@interface Path : NSObject<NSCopying, NSCoding>
 
 #pragma mark Lifetime
 
@@ -33,7 +33,7 @@
 
 #pragma mark On-Disk Inspection
 
-- (BOOL)exists; // Checks whether the path exists on disk and corresponds to the appropriate MFPath subclass.
+- (BOOL)exists; // Checks whether the path exists on disk and corresponds to the appropriate Path subclass.
 - (BOOL)itemExists; // Checks whether the path exists on disk (disregarding whether the path is a directory or a file)
 - (BOOL)isDirectory; // Checks whether the path is a directory on disk.
 - (BOOL)isFile; // Checks whether the path is a file on disk.
@@ -54,18 +54,18 @@
 
 #pragma mark Creating Other Instances
 
-- (MFDirectory *)parent; // Returns the parent directory.
-- (MFPath *)subitem:(NSString *)name; // Returns a subitem of the current path with the same concrete type as the object on which the method is called.
-- (MFPath *)subitemWithNumberSuffixIfExists:(NSString *)name; // Same but with a number suffix if the file already exists.
+- (Directory *)parent; // Returns the parent directory.
+- (Path *)subitem:(NSString *)name; // Returns a subitem of the current path with the same concrete type as the object on which the method is called.
+- (Path *)subitemWithNumberSuffixIfExists:(NSString *)name; // Same but with a number suffix if the file already exists.
 
 #pragma mark Operations
 
 - (BOOL)delete;
 - (BOOL)deleteAndSilenceLogging:(BOOL)silenceLogging;
-- (MFPath *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
-- (MFPath *)createSymlinkAtPath:(MFPath *)path;
-- (MFPath *)createSymlinkAtPath:(MFPath *)path error:(NSError **)error;
-- (MFPath *)createHardLinkAtPath:(MFPath *)path;
-- (MFPath *)createHardLinkAtPath:(MFPath *)path error:(NSError **)error;
+- (Path *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
+- (Path *)createSymlinkAtPath:(Path *)path;
+- (Path *)createSymlinkAtPath:(Path *)path error:(NSError **)error;
+- (Path *)createHardLinkAtPath:(Path *)path;
+- (Path *)createHardLinkAtPath:(Path *)path error:(NSError **)error;
 
 @end

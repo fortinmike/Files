@@ -1,17 +1,17 @@
 //
-//  MFPath.m
+//  Path.m
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2013-04-12.
 //  Copyright (c) 2013 irradiated.net. All rights reserved.
 //
 
-#import "MFPath.h"
-#import "MFDirectory.h"
+#import "Path.h"
+#import "Directory.h"
 #import "NSError+FilesAdditions.h"
 #import "NSException+FilesAdditions.h"
 
-@implementation MFPath
+@implementation Path
 {
 	NSString *_path;
 }
@@ -258,22 +258,22 @@
 
 #pragma mark Creating Other Instances
 
-- (MFDirectory *)parent
+- (Directory *)parent
 {
 	if ([[self absolutePath] isEqualToString:@"/"]) return nil;
 	
-	return [MFDirectory directoryWithPath:[[self absolutePath] stringByDeletingLastPathComponent]];
+	return [Directory directoryWithPath:[[self absolutePath] stringByDeletingLastPathComponent]];
 }
 
-- (MFPath *)subitem:(NSString *)name
+- (Path *)subitem:(NSString *)name
 {
 	NSString *path = [[self absolutePath] stringByAppendingPathComponent:name];
-	return [[MFPath alloc] initWithPath:path]; // Can return instances of subclasses!
+	return [[Path alloc] initWithPath:path]; // Can return instances of subclasses!
 }
 
-- (MFPath *)subitemWithNumberSuffixIfExists:(NSString *)name
+- (Path *)subitemWithNumberSuffixIfExists:(NSString *)name
 {
-	MFPath *candidatePath = [self subitem:name];
+	Path *candidatePath = [self subitem:name];
 	
 	if (![candidatePath itemExists])
 		return candidatePath;
@@ -281,13 +281,13 @@
 	NSString *basename = [candidatePath nameWithoutExtension];
 	NSString *extension = [candidatePath extension];
 	
-	MFPath *suffixedPath;
+	Path *suffixedPath;
 	NSUInteger suffixIndex = 1;
 	do
 	{
 		NSString *extensionWithDot = extension ? [@"." stringByAppendingString:extension] : @"";
 		NSString *suffixedFileNameString = [NSString stringWithFormat:@"%@%@%@", basename, @(suffixIndex), extensionWithDot];
-		suffixedPath = [[MFPath alloc] initWithPath:[[self subitem:suffixedFileNameString] absolutePath]];
+		suffixedPath = [[Path alloc] initWithPath:[[self subitem:suffixedFileNameString] absolutePath]];
 		suffixIndex++;
 	}
 	while ([suffixedPath itemExists]);
@@ -317,7 +317,7 @@
 }
 
 // Overriden with more concrete parameter and return types
-- (MFPath *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error
+- (Path *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error
 {
 	NSFileManager *manager = [NSFileManager defaultManager];
 	
@@ -333,7 +333,7 @@
 		}
 	}
 	
-	MFDirectory *parent = [destination parent];
+	Directory *parent = [destination parent];
 	if ([parent create] == nil)
 	{
 		NSString *description = [NSString stringWithFormat:@"Could not create parent directory %@", [parent absolutePath]];
@@ -352,15 +352,15 @@
 		return nil;
 	}
 	
-	return [[MFPath alloc] initWithPath:[destination absolutePath]];
+	return [[Path alloc] initWithPath:[destination absolutePath]];
 }
 
-- (MFPath *)createSymlinkAtPath:(MFPath *)path
+- (Path *)createSymlinkAtPath:(Path *)path
 {
 	return [self createSymlinkAtPath:path error:nil];
 }
 
-- (MFPath *)createSymlinkAtPath:(MFPath *)path error:(NSError **)error
+- (Path *)createSymlinkAtPath:(Path *)path error:(NSError **)error
 {
 	NSFileManager *manager = [NSFileManager defaultManager];
 	
@@ -369,12 +369,12 @@
 	return !error ? [[[self class] alloc] initWithPath:[path absolutePath]] : nil;
 }
 
-- (MFPath *)createHardLinkAtPath:(MFPath *)path
+- (Path *)createHardLinkAtPath:(Path *)path
 {
 	return [self createHardLinkAtPath:path error:nil];
 }
 
-- (MFPath *)createHardLinkAtPath:(MFPath *)path error:(NSError **)error
+- (Path *)createHardLinkAtPath:(Path *)path error:(NSError **)error
 {
 	NSFileManager *manager = [NSFileManager defaultManager];
 	

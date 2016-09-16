@@ -1,17 +1,17 @@
 //
-//  MFDirectory.m
+//  Directory.m
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2013-04-12.
 //  Copyright (c) 2013 irradiated.net. All rights reserved.
 //
 
-#import "MFDirectory.h"
-#import "MFFile.h"
+#import "Directory.h"
+#import "File.h"
 #import "NSError+FilesAdditions.h"
 #import "NSException+FilesAdditions.h"
 
-@implementation MFDirectory
+@implementation Directory
 
 #pragma mark Creation
 
@@ -54,14 +54,14 @@
 
 - (NSArray *)files
 {
-	return [self itemsOfKind:[MFFile class]];
+	return [self itemsOfKind:[File class]];
 }
 
 - (NSArray *)filesWithExtension:(NSString *)extension
 {
 	NSMutableArray *filesWithExtension = [NSMutableArray array];
 	
-	for (MFFile *file in [self files])
+	for (File *file in [self files])
 	{
 		if ([[file extension] isEqualToString:extension])
 			[filesWithExtension addObject:file];
@@ -72,7 +72,7 @@
 
 - (NSArray *)subdirectories
 {
-	return [self itemsOfKind:[MFDirectory class]];
+	return [self itemsOfKind:[Directory class]];
 }
 
 - (NSArray *)itemsOfKind:(Class)kind
@@ -95,7 +95,7 @@
 		NSString *itemPath = [[self absolutePath] stringByAppendingPathComponent:itemName];
 		[manager fileExistsAtPath:itemPath isDirectory:&itemIsDirectory];
 		
-		MFPath *item = (itemIsDirectory ? [MFDirectory directoryWithPath:itemPath] : [MFFile fileWithPath:itemPath]);
+		Path *item = (itemIsDirectory ? [Directory directoryWithPath:itemPath] : [File fileWithPath:itemPath]);
 		
 		if (item == nil) continue;
 		
@@ -115,12 +115,12 @@
 
 #pragma mark Creating Other Directories
 
-- (MFDirectory *)subdirectory:(NSString *)name
+- (Directory *)subdirectory:(NSString *)name
 {
-	return [MFDirectory directoryWithPath:[[self subitem:name] absolutePath]];
+	return [Directory directoryWithPath:[[self subitem:name] absolutePath]];
 }
 
-- (MFDirectory *)subdirectoryWithFormat:(NSString *)format, ...
+- (Directory *)subdirectoryWithFormat:(NSString *)format, ...
 {
 	va_list args;
 	va_start(args, format);
@@ -130,20 +130,20 @@
 	return [self subdirectory:name];
 }
 
-- (MFDirectory *)subdirectoryWithNumberSuffixIfExists:(NSString *)name
+- (Directory *)subdirectoryWithNumberSuffixIfExists:(NSString *)name
 {
-	MFPath *path = [self subitemWithNumberSuffixIfExists:name];
-	return [MFDirectory directoryWithPath:[path absolutePath]];
+	Path *path = [self subitemWithNumberSuffixIfExists:name];
+	return [Directory directoryWithPath:[path absolutePath]];
 }
 
 #pragma mark Creating Files
 
-- (MFFile *)file:(NSString *)name
+- (File *)file:(NSString *)name
 {
-	return [MFFile fileWithPath:[[self subitem:name] absolutePath]];
+	return [File fileWithPath:[[self subitem:name] absolutePath]];
 }
 
-- (MFFile *)fileWithFormat:(NSString *)format, ...
+- (File *)fileWithFormat:(NSString *)format, ...
 {
 	va_list args;
 	va_start(args, format);
@@ -153,16 +153,16 @@
 	return [self file:name];
 }
 
-- (MFFile *)fileWithName:(NSString *)name extension:(NSString *)extension
+- (File *)fileWithName:(NSString *)name extension:(NSString *)extension
 {
 	NSString *extensionWithDot = extension ? [@"." stringByAppendingString:extension] : @"";
 	return [self file:[name stringByAppendingString:extensionWithDot]];
 }
 
-- (MFFile *)fileWithNumberSuffixIfExists:(NSString *)name
+- (File *)fileWithNumberSuffixIfExists:(NSString *)name
 {
-	MFPath *path = [self subitemWithNumberSuffixIfExists:name];
-	return [MFFile fileWithPath:[path absolutePath]];
+	Path *path = [self subitemWithNumberSuffixIfExists:name];
+	return [File fileWithPath:[path absolutePath]];
 }
 
 #pragma mark Operations
@@ -175,13 +175,13 @@
 	
 	NSArray *items = [self items];
 	
-	for (MFPath *item in items)
+	for (Path *item in items)
 		success &= [item deleteAndSilenceLogging:YES];
 	
 	return success;
 }
 
-- (MFDirectory *)create
+- (Directory *)create
 {
     if ([self isDirectory]) return self;
     
@@ -199,17 +199,17 @@
     return self;
 }
 
-- (MFDirectory *)copyContentsTo:(MFDirectory *)destination
+- (Directory *)copyContentsTo:(Directory *)destination
 {
 	return [self copyContentsTo:destination overwrite:NO];
 }
 
-- (MFDirectory *)copyContentsTo:(MFDirectory *)destination overwrite:(BOOL)overwrite
+- (Directory *)copyContentsTo:(Directory *)destination overwrite:(BOOL)overwrite
 {
 	return [self copyContentsTo:destination overwrite:overwrite error:nil];
 }
 
-- (MFDirectory *)copyContentsTo:(MFDirectory *)destination overwrite:(BOOL)overwrite error:(NSError **)error
+- (Directory *)copyContentsTo:(Directory *)destination overwrite:(BOOL)overwrite error:(NSError **)error
 {
 	if (destination == nil)
 		@throw [NSException exceptionWithReason:@"Destination is nil"];
@@ -235,14 +235,14 @@
 	
 	NSMutableArray *errors = [NSMutableArray array];
 	
-	for (MFPath *item in [self items])
+	for (Path *item in [self items])
 	{
-		MFPath *subitem = nil;
-		if ([item isKindOfClass:[MFDirectory class]])
+		Path *subitem = nil;
+		if ([item isKindOfClass:[Directory class]])
 		{
 			subitem = [destination subdirectory:[item name]];
 		}
-		else if ([item isKindOfClass:[MFFile class]])
+		else if ([item isKindOfClass:[File class]])
 		{
 			subitem = [destination file:[item name]];
 		}
@@ -264,22 +264,22 @@
 	return destination;
 }
 
-- (MFDirectory *)copyTo:(MFDirectory *)destination
+- (Directory *)copyTo:(Directory *)destination
 {
 	return [self copyTo:destination overwrite:NO];
 }
 
-- (MFDirectory *)copyTo:(MFDirectory *)destination overwrite:(BOOL)overwrite
+- (Directory *)copyTo:(Directory *)destination overwrite:(BOOL)overwrite
 {
 	return [self copyTo:destination overwrite:overwrite error:nil];
 }
 
-- (MFDirectory *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error
+- (Directory *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error
 {
 	return [self copyTo:destination overwrite:overwrite error:error silenceLogging:NO];
 }
 
-- (MFDirectory *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error silenceLogging:(BOOL)silenceLogging
+- (Directory *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error silenceLogging:(BOOL)silenceLogging
 {
 	if (destination == nil)
 		@throw [NSException exceptionWithReason:@"Destination is nil"];
@@ -288,7 +288,7 @@
 		@throw [NSException exceptionWithReason:@"Trying to copy to same path"];
 	
 	NSError *innerError = nil;
-	MFPath *path = [super copyTo:destination overwrite:overwrite error:&innerError];
+	Path *path = [super copyTo:destination overwrite:overwrite error:&innerError];
 	
 	if (innerError && error)
 	{
@@ -296,20 +296,20 @@
 		return nil;
 	}
 	
-	return [MFDirectory directoryWithPath:[path absolutePath]];
+	return [Directory directoryWithPath:[path absolutePath]];
 }
 
-- (MFDirectory *)moveTo:(MFDirectory *)destination
+- (Directory *)moveTo:(Directory *)destination
 {
 	return [self moveTo:destination overwrite:NO];
 }
 
-- (MFDirectory *)moveTo:(MFDirectory *)destination overwrite:(BOOL)overwrite
+- (Directory *)moveTo:(Directory *)destination overwrite:(BOOL)overwrite
 {
 	return [self moveTo:destination overwrite:overwrite error:nil];
 }
 
-- (MFDirectory *)moveTo:(MFDirectory *)destination overwrite:(BOOL)overwrite error:(NSError **)error
+- (Directory *)moveTo:(Directory *)destination overwrite:(BOOL)overwrite error:(NSError **)error
 {
 	if (destination == nil)
 		@throw [NSException exceptionWithReason:@"Destination is nil"];
@@ -326,7 +326,7 @@
 	}
 	
 	NSError *innerError = nil;
-	MFDirectory *outputDirectory = [self copyTo:destination overwrite:overwrite error:&innerError silenceLogging:YES];
+	Directory *outputDirectory = [self copyTo:destination overwrite:overwrite error:&innerError silenceLogging:YES];
 	
 	if (innerError && error)
 	{

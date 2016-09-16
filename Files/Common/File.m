@@ -1,28 +1,28 @@
 //
-//  MFFile.m
+//  File.m
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2013-04-12.
 //  Copyright (c) 2013 irradiated.net. All rights reserved.
 //
 
-#import "MFFile.h"
-#import "MFDirectory.h"
+#import "File.h"
+#import "Directory.h"
 #import "NSError+FilesAdditions.h"
 #import "NSException+FilesAdditions.h"
 
-@implementation MFFile
+@implementation File
 
 #pragma mark Creation
 
 + (instancetype)fileWithPath:(NSString *)path
 {
-	return [[MFFile alloc] initWithPath:path];
+	return [[File alloc] initWithPath:path];
 }
 
 + (instancetype)fileWithFileURL:(NSURL *)url
 {
-	return [MFFile fileWithPath:[url path]];
+	return [File fileWithPath:[url path]];
 }
 
 + (instancetype)fileForResource:(NSString *)resourceName withExtension:(NSString *)extension
@@ -30,17 +30,17 @@
 	NSString *path = [[NSBundle mainBundle] pathForResource:resourceName ofType:extension];
 	if (!path) return nil;
 	
-	return [MFFile fileWithPath:path];
+	return [File fileWithPath:path];
 }
 
 #pragma mark Creating Other Instances
 
-- (MFFile *)sibling:(NSString *)name
+- (File *)sibling:(NSString *)name
 {
 	return [[self parent] file:name];
 }
 
-- (MFFile *)siblingWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2)
+- (File *)siblingWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2)
 {
 	va_list args;
 	va_start(args, format);
@@ -76,7 +76,7 @@
 
 #pragma mark Operations
 
-- (MFFile *)create
+- (File *)create
 {
 	if ([[self parent] create] == nil) return nil;
 	
@@ -86,33 +86,33 @@
 	return (fileCreated ? self : nil);
 }
 
-- (MFFile *)copyTo:(MFPath *)destination
+- (File *)copyTo:(Path *)destination
 {
 	return [self copyTo:destination overwrite:NO];
 }
 
-- (MFFile *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite
+- (File *)copyTo:(Path *)destination overwrite:(BOOL)overwrite
 {
 	return [self copyTo:destination overwrite:overwrite error:nil];
 }
 
-- (MFFile *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error
+- (File *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error
 {
 	return [self copyTo:destination overwrite:overwrite error:error silenceLogging:NO];
 }
 
-- (MFFile *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error silenceLogging:(BOOL)silenceLogging
+- (File *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error silenceLogging:(BOOL)silenceLogging
 {
 	if (destination == nil)
 		@throw [NSException exceptionWithReason:@"Destination is nil"];
 	
-	// Comparing absolute paths instead of objects because destination can be either an MFFile or an MFDirectory
+	// Comparing absolute paths instead of objects because destination can be either an File or an Directory
 	if ([[destination absolutePath] isEqual:[self absolutePath]])
 		@throw [NSException exceptionWithReason:@"Trying to copy to same path"];
 	
-	if ([destination isKindOfClass:[MFDirectory class]])
+	if ([destination isKindOfClass:[Directory class]])
 	{
-		MFDirectory *directory = (MFDirectory *)destination;
+		Directory *directory = (Directory *)destination;
 		
 		// If overwriting and we need to create a directory, delete whatever's at the path directory points to
 		if (overwrite) [directory deleteAndSilenceLogging:YES];
@@ -121,7 +121,7 @@
 	}
 	
 	NSError *innerError = nil;
-	MFPath *path = [super copyTo:destination overwrite:overwrite error:&innerError];
+	Path *path = [super copyTo:destination overwrite:overwrite error:&innerError];
 	
 	if (path == nil || innerError)
 	{
@@ -130,25 +130,25 @@
 		return nil;
 	}
 	
-	return [MFFile fileWithPath:[path absolutePath]];
+	return [File fileWithPath:[path absolutePath]];
 }
 
-- (MFFile *)moveTo:(MFPath *)destination
+- (File *)moveTo:(Path *)destination
 {
 	return [self moveTo:destination overwrite:NO];
 }
 
-- (MFFile *)moveTo:(MFPath *)destination overwrite:(BOOL)overwrite
+- (File *)moveTo:(Path *)destination overwrite:(BOOL)overwrite
 {
 	return [self moveTo:destination overwrite:overwrite error:nil];
 }
 
-- (MFFile *)moveTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error
+- (File *)moveTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error
 {
 	if (destination == nil)
 		@throw [NSException exceptionWithReason:@"Destination is nil"];
 	
-	// Comparing absolute paths instead of objects because destination can be either an MFFile or an MFDirectory
+	// Comparing absolute paths instead of objects because destination can be either an File or an Directory
 	if ([[destination absolutePath] isEqual:[self absolutePath]])
 		@throw [NSException exceptionWithReason:@"Trying to move to same path"];
 	
@@ -161,7 +161,7 @@
 	}
 	
 	NSError *innerError = nil;
-	MFFile *outputFile = [self copyTo:destination overwrite:overwrite error:&innerError silenceLogging:YES];
+	File *outputFile = [self copyTo:destination overwrite:overwrite error:&innerError silenceLogging:YES];
 	
 	if (innerError)
 	{
@@ -243,7 +243,7 @@
 		}
 	}
 	
-	MFDirectory *parent = [self parent];
+	Directory *parent = [self parent];
 	if (![parent create])
 	{
 		NSString *description = [NSString stringWithFormat:@"Could not create intermediary directories for path %@", [parent absolutePath]];

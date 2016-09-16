@@ -1,5 +1,5 @@
 //
-//  MFFile.h
+//  File.h
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2013-04-12.
@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MFPath.h"
+#import "Path.h"
 
-@interface MFFile : MFPath
+@interface File : Path
 
 #pragma mark Creation
 
@@ -19,18 +19,18 @@
 
 #pragma mark Creating Other Instances
 
-- (MFFile *)sibling:(NSString *)name; // Returns another file in the same parent directory as the current file.
-- (MFFile *)siblingWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
+- (File *)sibling:(NSString *)name; // Returns another file in the same parent directory as the current file.
+- (File *)siblingWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
 
 #pragma mark Operations
 
-- (MFFile *)create; // Creates the file if it doesn't exist.
-- (MFFile *)copyTo:(MFPath *)destination; // Copies the file in a directory or to the specified file path.
-- (MFFile *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite;
-- (MFFile *)copyTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
-- (MFFile *)moveTo:(MFPath *)destination; // Moves the file in a directory or to the specified file path.
-- (MFFile *)moveTo:(MFPath *)destination overwrite:(BOOL)overwrite;
-- (MFFile *)moveTo:(MFPath *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
+- (File *)create; // Creates the file if it doesn't exist.
+- (File *)copyTo:(Path *)destination; // Copies the file in a directory or to the specified file path.
+- (File *)copyTo:(Path *)destination overwrite:(BOOL)overwrite;
+- (File *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
+- (File *)moveTo:(Path *)destination; // Moves the file in a directory or to the specified file path.
+- (File *)moveTo:(Path *)destination overwrite:(BOOL)overwrite;
+- (File *)moveTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
 
 #pragma mark Data Writing / Reading
 

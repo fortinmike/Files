@@ -1,43 +1,43 @@
 //
-//  MFFileTests.m
+//  FileTests.m
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2013-04-13.
 //  Copyright (c) 2013 irradiated.net. All rights reserved.
 //
 
-#import "MFFileTests.h"
-#import "MFTestEnvironmentHelpers.h"
-#import "MFDirectory.h"
-#import "MFFile.h"
+#import "FileTests.h"
+#import "TestEnvironmentHelpers.h"
+#import "Directory.h"
+#import "File.h"
 #import "MFXMLValidator.h"
 #import "MFNSCodingImplementer.h"
 
-#define MFFileTestFilesFolderName @"MFDirectory+MFFile"
+#define FileTestFilesFolderName @"Directory+File"
 
-#pragma mark Unit tests for MFFile
+#pragma mark Unit tests for File
 
-@implementation MFFileTests
+@implementation FileTests
 
-MFDirectory *_testDirectory;
-MFFile *_file1_inFolderA;
-MFFile *_file3_inFolderA;
-MFFile *_nonExistingFile;
-MFFile *_filePointingToDirectory;
-MFFile *_imageFile;
+Directory *_testDirectory;
+File *_file1_inFolderA;
+File *_file3_inFolderA;
+File *_nonExistingFile;
+File *_filePointingToDirectory;
+File *_imageFile;
 
 #pragma mark SetUp and TearDown
 
 - (void)setUp
 {
-	_testDirectory = [[MFTestEnvironmentHelpers testDirectory] subdirectory:MFFileTestFilesFolderName];
+	_testDirectory = [[TestEnvironmentHelpers testDirectory] subdirectory:FileTestFilesFolderName];
 	_file1_inFolderA = [[_testDirectory subdirectory:@"Folder A"] file:@"File 1"];
 	_file3_inFolderA = [[_testDirectory subdirectory:@"Folder A"] file:@"File 3"];
-	_nonExistingFile = [MFFile fileWithPath:@"/Users/Blah.jpg"];
-	_filePointingToDirectory = [MFFile fileWithPath:@"/Applications"];
+	_nonExistingFile = [File fileWithPath:@"/Users/Blah.jpg"];
+	_filePointingToDirectory = [File fileWithPath:@"/Applications"];
 	_imageFile = [_testDirectory file:@"image.jpg"];
 	
-	[MFTestEnvironmentHelpers cleanupAndCopyTestFilesToTestDirectoryFromBundleResources];
+	[TestEnvironmentHelpers cleanupAndCopyTestFilesToTestDirectoryFromBundleResources];
 }
 
 #pragma mark Creation tests
@@ -45,7 +45,7 @@ MFFile *_imageFile;
 - (void)testCanCreateFileWithFileURL
 {
 	NSURL *fileURL = [NSURL fileURLWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
-	MFFile *file = [MFFile fileWithFileURL:fileURL];
+	File *file = [File fileWithFileURL:fileURL];
 	XCTAssertNotNil(file);
 	XCTAssertEqualObjects([file path], @"/Applications/iTunes.app/Contents/MacOS/iTunes");
 }
@@ -54,7 +54,7 @@ MFFile *_imageFile;
 
 - (void)testCantCreateFileFromPathWithTrailingSlash
 {
-	MFFile *file = [MFFile fileWithPath:@"/Applications/SomeFileButWithATrailingSlash/"];
+	File *file = [File fileWithPath:@"/Applications/SomeFileButWithATrailingSlash/"];
 	XCTAssertNil(file, @"File should not be initializable with a path containing a trailing slash");
 }
 
@@ -62,7 +62,7 @@ MFFile *_imageFile;
 
 - (void)testCanReturnValidFileURL
 {
-	NSURL *url = [[MFFile fileWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"] fileURL];
+	NSURL *url = [[File fileWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"] fileURL];
 	XCTAssertTrue([url isFileURL]);
 	assertThat([url description], containsString(@"file://"));
 }
@@ -140,8 +140,8 @@ MFFile *_imageFile;
 
 - (void)testCanCreateFileIfDoesntExist
 {
-	MFFile *file = [_testDirectory file:@"Folder A/File 50"];
-	MFFile *result = [file create];
+	File *file = [_testDirectory file:@"Folder A/File 50"];
+	File *result = [file create];
 	
 	NSFileManager *manager = [NSFileManager defaultManager];
 	
@@ -153,8 +153,8 @@ MFFile *_imageFile;
 
 - (void)testCreateCreatesIntermediaryDirectories
 {
-	MFFile *file = [_testDirectory file:@"Intermediate Folder/File 50"];
-	MFFile *result = [file create];
+	File *file = [_testDirectory file:@"Intermediate Folder/File 50"];
+	File *result = [file create];
 	
 	BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:[file absolutePath]];
 	
@@ -166,9 +166,9 @@ MFFile *_imageFile;
 
 - (void)testThrowsIfTryingToCopyToSamePath
 {
-	MFFile *source = [_testDirectory file:@"Test 1"];
-	MFFile *sameFile = [_testDirectory file:@"Test 1"];
-	MFDirectory *sameDirectory = [_testDirectory subdirectory:@"Test 1"];
+	File *source = [_testDirectory file:@"Test 1"];
+	File *sameFile = [_testDirectory file:@"Test 1"];
+	Directory *sameDirectory = [_testDirectory subdirectory:@"Test 1"];
 	
 	XCTAssertThrows([source copyTo:sameFile]);
 	XCTAssertThrows([source copyTo:sameDirectory]);
@@ -176,19 +176,19 @@ MFFile *_imageFile;
 
 - (void)testCopyToWorks
 {
-	MFFile *destination = [_testDirectory file:@"CopyToWorks"];
-	MFFile *newFile = [_file1_inFolderA copyTo:destination];
+	File *destination = [_testDirectory file:@"CopyToWorks"];
+	File *newFile = [_file1_inFolderA copyTo:destination];
 	
 	BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:[destination path]];
 	
 	XCTAssertTrue(exist, @"File should exist at the destination after copy");
-	XCTAssertNotNil(newFile, @"copyTo: did not return an MFFile instance for the new file");
+	XCTAssertNotNil(newFile, @"copyTo: did not return an File instance for the new file");
 }
 
 - (void)testCopyToDontOverwriteFailsWhenFileExists
 {
-	MFFile *destination = [_testDirectory file:@"Folder A/File 2"];
-	MFFile *newFile = [_file1_inFolderA copyTo:destination overwrite:NO];
+	File *destination = [_testDirectory file:@"Folder A/File 2"];
+	File *newFile = [_file1_inFolderA copyTo:destination overwrite:NO];
 	
 	BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:[destination path]];
 	
@@ -200,38 +200,38 @@ MFFile *_imageFile;
 {
 	NSError *error = nil;
 	
-	MFFile *destination = [_testDirectory file:@"Folder A/File 2"];
-	MFFile *newFile = [_file1_inFolderA copyTo:destination overwrite:YES error:&error];
+	File *destination = [_testDirectory file:@"Folder A/File 2"];
+	File *newFile = [_file1_inFolderA copyTo:destination overwrite:YES error:&error];
 	
 	BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:[destination path]];
 	
 	XCTAssertTrue(exist, @"File should exist at the destination after copy");
-	XCTAssertNotNil(newFile, @"copyTo: did not return an MFFile instance for the new file");
+	XCTAssertNotNil(newFile, @"copyTo: did not return an File instance for the new file");
 }
 
 - (void)testCopyToDirectoryWorks
 {
-	MFFile *copied = [_file1_inFolderA copyTo:[_testDirectory subdirectory:@"Folder B"]];
-	MFFile *expected = [[_testDirectory subdirectory:@"Folder B"] file:@"File 1"];
+	File *copied = [_file1_inFolderA copyTo:[_testDirectory subdirectory:@"Folder B"]];
+	File *expected = [[_testDirectory subdirectory:@"Folder B"] file:@"File 1"];
 	
 	BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:[expected absolutePath]];
 	
 	XCTAssertTrue(exist, @"File should exist in destination directory");
-	XCTAssertEqualObjects(copied, expected, @"An MFFile instance should be returned and point to newly copied file");
+	XCTAssertEqualObjects(copied, expected, @"An File instance should be returned and point to newly copied file");
 }
 
 - (void)testCopyToPathThatDoesntExistWorks
 {
-	MFFile *copied = [_file1_inFolderA copyTo:[_testDirectory subdirectory:@"Folder J"]];
-	MFDirectory *destinationDir = [_testDirectory subdirectory:@"Folder J"];
-	MFFile *expected = [destinationDir file:@"File 1"];
+	File *copied = [_file1_inFolderA copyTo:[_testDirectory subdirectory:@"Folder J"]];
+	Directory *destinationDir = [_testDirectory subdirectory:@"Folder J"];
+	File *expected = [destinationDir file:@"File 1"];
 	
 	BOOL directoryExists = [[NSFileManager defaultManager] fileExistsAtPath:[destinationDir absolutePath]];
 	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[expected absolutePath]];
 	
 	XCTAssertTrue(directoryExists, @"Directory should have been created to copy file into it");
 	XCTAssertTrue(fileExists, @"File should exist in destination directory");
-	XCTAssertEqualObjects(copied, expected, @"An MFFile instance should be returned and point to newly copied file");
+	XCTAssertEqualObjects(copied, expected, @"An File instance should be returned and point to newly copied file");
 }
 
 - (void)testCopyThrowsIfDestinationIsNil
@@ -241,8 +241,8 @@ MFFile *_imageFile;
 
 - (void)testCopyCreatesIntermediaryDirectories
 {
-	MFDirectory *destinationDir = [_testDirectory subdirectory:@"Folder K/Folder J/Folder M"];
-	MFFile *copied = [_file1_inFolderA copyTo:destinationDir];
+	Directory *destinationDir = [_testDirectory subdirectory:@"Folder K/Folder J/Folder M"];
+	File *copied = [_file1_inFolderA copyTo:destinationDir];
 	
 	BOOL isDirectory;
 	BOOL directoryExists = [[NSFileManager defaultManager] fileExistsAtPath:[destinationDir absolutePath] isDirectory:&isDirectory];
@@ -257,9 +257,9 @@ MFFile *_imageFile;
 
 - (void)testThrowsIfTryingToMoveToSamePath
 {
-	MFFile *source = [_testDirectory file:@"Test 1"];
-	MFFile *sameFile = [_testDirectory file:@"Test 1"];
-	MFDirectory *sameDirectory = [_testDirectory subdirectory:@"Test 1"];
+	File *source = [_testDirectory file:@"Test 1"];
+	File *sameFile = [_testDirectory file:@"Test 1"];
+	Directory *sameDirectory = [_testDirectory subdirectory:@"Test 1"];
 	
 	XCTAssertThrows([source moveTo:sameFile]);
 	XCTAssertThrows([source moveTo:sameDirectory]);
@@ -267,8 +267,8 @@ MFFile *_imageFile;
 
 - (void)testMoveToDirectorySucceeds
 {
-	MFFile *newFile = [_file1_inFolderA moveTo:[_testDirectory subdirectory:@"Folder B"]];
-	MFFile *expected = [_testDirectory file:@"Folder B/File 1"];
+	File *newFile = [_file1_inFolderA moveTo:[_testDirectory subdirectory:@"Folder B"]];
+	File *expected = [_testDirectory file:@"Folder B/File 1"];
 	
 	BOOL oldFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[_file1_inFolderA absolutePath]];
 	BOOL newFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[expected absolutePath]];
@@ -281,8 +281,8 @@ MFFile *_imageFile;
 
 - (void)testMoveToFileSucceeds
 {
-	MFFile *destinationFile = [_testDirectory file:@"Superfile"];
-	MFFile *newFile = [_file1_inFolderA moveTo:destinationFile];
+	File *destinationFile = [_testDirectory file:@"Superfile"];
+	File *newFile = [_file1_inFolderA moveTo:destinationFile];
 	
 	BOOL oldFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[_file1_inFolderA absolutePath]];
 	BOOL newFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[destinationFile absolutePath]];
@@ -295,10 +295,10 @@ MFFile *_imageFile;
 
 - (void)testMoveSucceedsIfDestinationIsDirectoryAndPointsToFileAndOverwriting
 {
-	MFDirectory *directoryPointingToFile = [_testDirectory subdirectory:@"Folder B/File 4"];
-	MFFile *newFile = [_file1_inFolderA moveTo:directoryPointingToFile overwrite:YES];
-	MFDirectory *expectedDirectory = [_testDirectory subdirectory:@"Folder B/File 4"];
-	MFFile *expectedFile = [_testDirectory file:@"Folder B/File 4/File 1"];
+	Directory *directoryPointingToFile = [_testDirectory subdirectory:@"Folder B/File 4"];
+	File *newFile = [_file1_inFolderA moveTo:directoryPointingToFile overwrite:YES];
+	Directory *expectedDirectory = [_testDirectory subdirectory:@"Folder B/File 4"];
+	File *expectedFile = [_testDirectory file:@"Folder B/File 4/File 1"];
 	
 	BOOL oldFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[_file1_inFolderA absolutePath]];
 	
@@ -317,8 +317,8 @@ MFFile *_imageFile;
 
 - (void)testMoveFailsIfDestinationExistsAndSpecifyingParentFolderAndNotOverwriting
 {
-	MFFile *newFile = [_file3_inFolderA moveTo:[_testDirectory subdirectory:@"Folder B"] overwrite:NO];
-	MFFile *expected = [_testDirectory file:@"Folder B/File 3"];
+	File *newFile = [_file3_inFolderA moveTo:[_testDirectory subdirectory:@"Folder B"] overwrite:NO];
+	File *expected = [_testDirectory file:@"Folder B/File 3"];
 	
 	BOOL oldFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[_file3_inFolderA absolutePath]];
 	BOOL newFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[expected absolutePath]];
@@ -330,8 +330,8 @@ MFFile *_imageFile;
 
 - (void)testMoveSucceedsIfDestinationExistsAndSpecifyingParentFolderAndOverwriting
 {
-	MFFile *newFile = [_file3_inFolderA moveTo:[_testDirectory subdirectory:@"Folder B"] overwrite:YES];
-	MFFile *expected = [_testDirectory file:@"Folder B/File 3"];
+	File *newFile = [_file3_inFolderA moveTo:[_testDirectory subdirectory:@"Folder B"] overwrite:YES];
+	File *expected = [_testDirectory file:@"Folder B/File 3"];
 	
 	BOOL oldFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[_file3_inFolderA absolutePath]];
 	BOOL newFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[expected absolutePath]];
@@ -343,8 +343,8 @@ MFFile *_imageFile;
 
 - (void)testMoveFailsIfDestinationExistsAndSpecifyingFileAndNotOverwriting
 {
-	MFFile *destinationFile = [_testDirectory file:@"Folder B/File 4"];
-	MFFile *newFile = [_file1_inFolderA moveTo:destinationFile overwrite:NO];
+	File *destinationFile = [_testDirectory file:@"Folder B/File 4"];
+	File *newFile = [_file1_inFolderA moveTo:destinationFile overwrite:NO];
 	
 	BOOL oldFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[_file1_inFolderA absolutePath]];
 	BOOL newFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[destinationFile absolutePath]];
@@ -356,8 +356,8 @@ MFFile *_imageFile;
 
 - (void)testMoveFailsIfDestinationExistsAndIsFileOnDiskButSpecifiedAsDirectoryAndNotOverwriting
 {
-	MFDirectory *directoryPointingToFile = [_testDirectory subdirectory:@"Folder B/File 4"];
-	MFFile *newFile = [_file1_inFolderA moveTo:directoryPointingToFile overwrite:NO];
+	Directory *directoryPointingToFile = [_testDirectory subdirectory:@"Folder B/File 4"];
+	File *newFile = [_file1_inFolderA moveTo:directoryPointingToFile overwrite:NO];
 	
 	BOOL isDirectory;
 	BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:[directoryPointingToFile absolutePath] isDirectory:&isDirectory];
@@ -369,8 +369,8 @@ MFFile *_imageFile;
 
 - (void)testMoveFailsIfDestinationExistsAndIsDirectoryOnDiskButSpecifiedAsFileAndNotOverwriting
 {
-	MFFile *filePointingToDirectory = [_testDirectory file:@"Folder B"];
-	MFFile *newFile = [_file1_inFolderA moveTo:filePointingToDirectory overwrite:NO];
+	File *filePointingToDirectory = [_testDirectory file:@"Folder B"];
+	File *newFile = [_file1_inFolderA moveTo:filePointingToDirectory overwrite:NO];
 	
 	BOOL isStillADirectory;
 	BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:[filePointingToDirectory absolutePath] isDirectory:&isStillADirectory];
@@ -387,8 +387,8 @@ MFFile *_imageFile;
 
 - (void)testMoveCreatesIntermediaryDirectories
 {
-	MFDirectory *destinationDir = [_testDirectory subdirectory:@"Folder K/Folder J/Folder M"];
-	MFFile *moved = [_file1_inFolderA moveTo:destinationDir];
+	Directory *destinationDir = [_testDirectory subdirectory:@"Folder K/Folder J/Folder M"];
+	File *moved = [_file1_inFolderA moveTo:destinationDir];
 	
 	BOOL isDirectory;
 	BOOL directoryExists = [[NSFileManager defaultManager] fileExistsAtPath:[destinationDir absolutePath] isDirectory:&isDirectory];
@@ -403,7 +403,7 @@ MFFile *_imageFile;
 
 - (void)testCanWriteData
 {
-	MFFile *destinationFile = [_testDirectory file:@"writtenData.bin"];
+	File *destinationFile = [_testDirectory file:@"writtenData.bin"];
 	NSData *data = [NSData dataWithContentsOfFile:[_imageFile absolutePath]];
 	BOOL success = [destinationFile writeData:data];
 	
@@ -422,7 +422,7 @@ MFFile *_imageFile;
 
 - (void)testWriteFailsIfFileExistsAndNotOverwriting
 {
-	MFFile *destinationFile = [_testDirectory file:@"Folder A"];
+	File *destinationFile = [_testDirectory file:@"Folder A"];
 	NSData *data = [NSData dataWithContentsOfFile:[_imageFile absolutePath]];
 	
 	BOOL success = [destinationFile writeData:data];
@@ -437,7 +437,7 @@ MFFile *_imageFile;
 
 - (void)testWriteCanOverwriteExistingFile
 {
-	MFFile *destinationFile = [_testDirectory file:@"Folder A"];
+	File *destinationFile = [_testDirectory file:@"Folder A"];
 	NSData *data = [NSData dataWithContentsOfFile:[_imageFile absolutePath]];
 	BOOL success = [destinationFile writeData:data overwrite:YES];
 	
@@ -451,7 +451,7 @@ MFFile *_imageFile;
 
 - (void)testWriteCreatesIntermediaryDirectoriesWhenWritingToNonExistingPath
 {
-	MFFile *destinationFile = [_testDirectory file:@"Folder A/Subfolder J/SomeFile.jpg"];
+	File *destinationFile = [_testDirectory file:@"Folder A/Subfolder J/SomeFile.jpg"];
 	NSData *data = [NSData dataWithContentsOfFile:[_imageFile absolutePath]];
 	BOOL success = [destinationFile writeData:data overwrite:YES];
 	
@@ -465,7 +465,7 @@ MFFile *_imageFile;
 
 - (void)testWriteThrowsWhenAskedToWriteNilData
 {
-	MFFile *destinationFile = [_testDirectory file:@"anotherimage.jpg"];
+	File *destinationFile = [_testDirectory file:@"anotherimage.jpg"];
 	XCTAssertThrows([destinationFile writeData:nil overwrite:YES]);
 }
 
@@ -473,7 +473,7 @@ MFFile *_imageFile;
 {
 	NSError *error;
 	
-	MFFile *destinationFile = [_testDirectory file:@"Folder A"];
+	File *destinationFile = [_testDirectory file:@"Folder A"];
 	NSData *data = [NSData dataWithContentsOfFile:[_imageFile absolutePath]];
 	BOOL success = [destinationFile writeData:data overwrite:NO error:&error];
 	
@@ -515,7 +515,7 @@ MFFile *_imageFile;
 	MFNSCodingImplementer *object = [[MFNSCodingImplementer alloc] init];
 	object.number = 5;
 	
-	MFFile *file = [_testDirectory file:@"archive"];
+	File *file = [_testDirectory file:@"archive"];
 	
 	[file archive:object];
 	
@@ -530,7 +530,7 @@ MFFile *_imageFile;
 	MFNSCodingImplementer *object = [[MFNSCodingImplementer alloc] init];
 	object.number = 5;
 	
-	MFFile *file = [_testDirectory file:@"archive"];
+	File *file = [_testDirectory file:@"archive"];
 	
 	[file archiveAsXMLPlist:object];
 	
@@ -567,7 +567,7 @@ MFFile *_imageFile;
 
 - (void)testDescriptionIsEqualToAbsolutePath
 {
-	MFFile *file = [_testDirectory file:@"Blah"];
+	File *file = [_testDirectory file:@"Blah"];
 	NSString *descriptionString = [NSString stringWithFormat:@"%@", file];
 	
 	assertThat([file description], equalTo([file absolutePath]));

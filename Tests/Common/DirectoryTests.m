@@ -1,32 +1,32 @@
 //
-//  MFDirectoryTests.m
+//  DirectoryTests.m
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2013-04-13.
 //  Copyright (c) 2013 irradiated.net. All rights reserved.
 //
 
-#import "MFDirectory.h"
-#import "MFDirectoryTests.h"
-#import "MFFile.h"
-#import "MFTestEnvironmentHelpers.h"
+#import "Directory.h"
+#import "DirectoryTests.h"
+#import "File.h"
+#import "TestEnvironmentHelpers.h"
 #import "NSException+Additions.h"
 
 #if TARGET_OS_IPHONE
-#import "MFDirectory+iOS.h"
+#import "Directory+iOS.h"
 #else
-#import "MFDirectory+OSX.h"
+#import "Directory+OSX.h"
 #endif
 
-#define MFDirectoryTestFilesFolderName @"MFDirectory+MFFile"
+#define DirectoryTestFilesFolderName @"Directory+File"
 
-@implementation MFDirectoryTests
+@implementation DirectoryTests
 {
 	NSString *_pathOutsideHomeFolder;
 	NSString *_pathInHomeFolderAbbreviated;
 	NSString *_pathInHomeFolderAbsolute;
 	NSString *_absoluteTestPath;
-	MFDirectory *_testDirectory;
+	Directory *_testDirectory;
 	NSFileManager *_fileManager;
 }
 
@@ -38,9 +38,9 @@
 	
 	_fileManager = [NSFileManager defaultManager];
 	
-	_testDirectory = [[MFTestEnvironmentHelpers testDirectory] subdirectory:MFDirectoryTestFilesFolderName];
+	_testDirectory = [[TestEnvironmentHelpers testDirectory] subdirectory:DirectoryTestFilesFolderName];
 	
-	[MFTestEnvironmentHelpers cleanupAndCopyTestFilesToTestDirectoryFromBundleResources];
+	[TestEnvironmentHelpers cleanupAndCopyTestFilesToTestDirectoryFromBundleResources];
 	
 	// Create an empty directory (because empty directories cannot be tracked by Git thus we can't include one in our test files structure).
 	NSString *emptyDirectory = [[_testDirectory absolutePath] stringByAppendingPathComponent:@"Folder C (Empty)"];
@@ -83,45 +83,45 @@
 
 - (void)testCanTellIfDirectoriesAreEqual
 {
-	MFDirectory *dirA = [MFDirectory directoryWithPath:@"/Applications"];
-	MFDirectory *dirB = [MFDirectory directoryWithPath:@"/Applications"];
+	Directory *dirA = [Directory directoryWithPath:@"/Applications"];
+	Directory *dirB = [Directory directoryWithPath:@"/Applications"];
 	XCTAssertEqualObjects(dirA, dirB);
 }
 
 - (void)testCanTellIfDirectoriesAreEqualIfCreatedFromAbsoluteAndAbbreviatedPaths
 {
-	MFDirectory *dirA = [MFDirectory directoryWithPath:_pathInHomeFolderAbbreviated];
-	MFDirectory *dirB = [MFDirectory directoryWithPath:_pathInHomeFolderAbsolute];
+	Directory *dirA = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
+	Directory *dirB = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	XCTAssertEqualObjects(dirA, dirB);
 }
 
 - (void)testCanTellIfDirectoriesAreDifferent
 {
-	MFDirectory *dirA = [MFDirectory directoryWithPath:@"/Applications"];
-	MFDirectory *dirB = [MFDirectory directoryWithPath:@"/SomeOtherDirectory"];
+	Directory *dirA = [Directory directoryWithPath:@"/Applications"];
+	Directory *dirB = [Directory directoryWithPath:@"/SomeOtherDirectory"];
 	XCTAssertFalse([dirA isEqual:dirB]);
 }
 
 - (void)testCanTellIfDirectoryAndFilePointingAtSamePathAreDifferent
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications"];
-	MFFile *file = [MFFile fileWithPath:@"/Applications"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications"];
+	File *file = [File fileWithPath:@"/Applications"];
 	XCTAssertFalse([dir isEqual:file]);
 }
 
 - (void)testDirectoriesHaveSameHashWhenTheyHaveTheSameAbsolutePath
 {
 	NSString *absolutePath = [@"~/Desktop" stringByStandardizingPath];
-	MFDirectory *absoluteDir = [MFDirectory directoryWithPath:absolutePath];
-	MFDirectory *abbreviatedDir = [MFDirectory directoryWithPath:@"~/Desktop"];
+	Directory *absoluteDir = [Directory directoryWithPath:absolutePath];
+	Directory *abbreviatedDir = [Directory directoryWithPath:@"~/Desktop"];
 	XCTAssertTrue([absoluteDir hash] == [abbreviatedDir hash]);
 }
 
 - (void)testPathsHaveDifferentHashWhenNotTheSameConcreteType
 {
 	NSString *path = @"~/Desktop";
-	MFDirectory *absoluteDir = [MFDirectory directoryWithPath:path];
-	MFFile *abbreviatedDir = [MFFile fileWithPath:path];
+	Directory *absoluteDir = [Directory directoryWithPath:path];
+	File *abbreviatedDir = [File fileWithPath:path];
 	XCTAssertFalse([absoluteDir hash] == [abbreviatedDir hash]);
 }
 
@@ -129,34 +129,34 @@
 
 - (void)testCanCreateDirectoryWithPathThatStartsWithRoot
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Something/Test"];
+	Directory *dir = [Directory directoryWithPath:@"/Something/Test"];
 	assertThat([dir path], equalTo(@"/Something/Test"));
 }
 
 - (void)testCanCreateDirectoryWithPathThatStartsWithTildeAndSlash
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"~/Something/Test"];
+	Directory *dir = [Directory directoryWithPath:@"~/Something/Test"];
 	assertThat([dir path], equalTo(@"~/Something/Test"));
 }
 
 - (void)testCantCreateDirectoryWithPathThatDoesntStartWithRootOrTildeAndSlash
 {
-	XCTAssertThrows([MFDirectory directoryWithPath:@"~Something/Test"]);
+	XCTAssertThrows([Directory directoryWithPath:@"~Something/Test"]);
 }
 
 - (void)testCantCreateDirectoryWithPathThatContainsSuccessiveSlashes
 {
-	XCTAssertThrows([MFDirectory directoryWithPath:@"~Something////Test"]);
+	XCTAssertThrows([Directory directoryWithPath:@"~Something////Test"]);
 }
 
 - (void)testCantCreateDirectoryWithNilPath
 {
-	XCTAssertThrows([MFDirectory directoryWithPath:nil]);
+	XCTAssertThrows([Directory directoryWithPath:nil]);
 }
 
 - (void)testCanCreateValidDirectoryWithTrailingSlash
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Library/Preferences/"];
+	Directory *dir = [Directory directoryWithPath:@"/Library/Preferences/"];
 	
 	assertThat([dir pathComponents], hasCountOf(3));
 	assertThat([dir name], equalTo(@"Preferences"));
@@ -179,13 +179,13 @@
 
 - (void)testReturnsCorrectPathWhenPathIsOutsideHomeFolderAndAskingForAbbreviatedPath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathOutsideHomeFolder];
+	Directory *dir = [Directory directoryWithPath:_pathOutsideHomeFolder];
 	XCTAssertEqualObjects([dir path], _pathOutsideHomeFolder);
 }
 
 - (void)testReturnsCorrectPathWhenPathIsOutsideHomeFolderAndAskingForAbsolutePath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathOutsideHomeFolder];
+	Directory *dir = [Directory directoryWithPath:_pathOutsideHomeFolder];
 	XCTAssertEqualObjects([dir absolutePath], _pathOutsideHomeFolder);
 }
 
@@ -195,13 +195,13 @@
 
 - (void)testReturnsCorrectPathWhenPathIsInHomeFolderAndCreatedAsAbbreviatedAndAskingForAbbreviatedPath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbbreviated];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
 	XCTAssertEqualObjects([dir path], _pathInHomeFolderAbbreviated);
 }
 
 - (void)testReturnsCorrectPathWhenPathIsInHomeFolderAndCreatedAsAbbreviatedAndAskingForAbsolutePath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbbreviated];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
 	XCTAssertEqualObjects([dir absolutePath], _pathInHomeFolderAbsolute);
 }
 
@@ -211,13 +211,13 @@
 
 - (void)testReturnsCorrectPathWhenPathIsInHomeFolderAndCreatedAsAbsoluteAndAskingForAbbreviatedPath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbsolute];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	XCTAssertEqualObjects([dir path], _pathInHomeFolderAbbreviated);
 }
 
 - (void)testReturnsCorrectPathWhenPathIsInHomeFolderAndCreatedAsAbsoluteAndAskingForAbsolutePath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbsolute];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	XCTAssertEqualObjects([dir absolutePath], _pathInHomeFolderAbsolute);
 }
 
@@ -225,7 +225,7 @@
 
 - (void)testReturnsCorrectPathComponents
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathOutsideHomeFolder];
+	Directory *dir = [Directory directoryWithPath:_pathOutsideHomeFolder];
 	NSArray *components = [dir pathComponents];
 	assertThat(components[0], equalTo(@"/"));
 	assertThat(components[1], equalTo(@"Library"));
@@ -236,7 +236,7 @@
 
 - (void)testReturnsCorrectAbsolutePathComponentsWhenPathIsOutsideHomeFolder
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathOutsideHomeFolder];
+	Directory *dir = [Directory directoryWithPath:_pathOutsideHomeFolder];
 	NSArray *components = [dir absolutePathComponents];
 	assertThat(components[0], equalTo(@"/"));
 	assertThat(components[1], equalTo(@"Library"));
@@ -249,7 +249,7 @@
 
 - (void)testReturnsCorrectPathComponentsWhenPathIsInHomeFolderAndCreatedAsAbbreviated
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbbreviated];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
 	NSArray *components = [dir pathComponents];
 	assertThat(components[0], equalTo(@"~"));
 	assertThat(components[1], equalTo(@"Library"));
@@ -258,7 +258,7 @@
 
 - (void)testReturnsCorrectAbsolutePathComponentsWhenPathIsInHomeFolderAndCreatedAsAbbreviated
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbbreviated];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
 	NSArray *components = [dir absolutePathComponents];
 	assertThat(components[0], equalTo(@"/"));
 	assertThat(components[1], equalTo(@"Users"));
@@ -272,7 +272,7 @@
 
 - (void)testReturnsCorrectPathComponentsWhenPathIsInHomeFolderAndCreatedAsAbsolute
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbsolute];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	NSArray *components = [dir pathComponents];
 	assertThat(components[0], equalTo(@"~"));
 	assertThat(components[1], equalTo(@"Library"));
@@ -281,7 +281,7 @@
 
 - (void)testReturnsCorrectAbsolutePathComponentsWhenPathIsInHomeFolderAndCreatedAsAbsolute
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbsolute];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	NSArray *components = [dir absolutePathComponents];
 	assertThat(components[0], equalTo(@"/"));
 	assertThat(components[1], equalTo(@"Users"));
@@ -295,7 +295,7 @@
 
 - (void)testReturnsCorrectFileURLFromAbsolutePath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbsolute];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	NSURL *fileURL = [dir fileURL];
 	XCTAssertTrue([fileURL isFileURL], @"Not a file URL!");
 	assertThat(fileURL, equalTo([NSURL fileURLWithPath:_pathInHomeFolderAbsolute]));
@@ -303,7 +303,7 @@
 
 - (void)testReturnsCorrectFileURLFromAbbreviatedPath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:_pathInHomeFolderAbbreviated];
+	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
 	NSURL *fileURL = [dir fileURL];
 	XCTAssertTrue([fileURL isFileURL], @"Not a file URL!");
 	assertThat(fileURL, equalTo([NSURL fileURLWithPath:_pathInHomeFolderAbsolute]));
@@ -313,25 +313,25 @@
 
 - (void)testReturnsCorrectNameWithoutExtensionInPath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Folder1/Folder2/SomeDirectory"];
+	Directory *dir = [Directory directoryWithPath:@"/Folder1/Folder2/SomeDirectory"];
 	XCTAssertTrue([[dir name] isEqualToString:@"SomeDirectory"], @"Wrong directory name returned");
 }
 
 - (void)testReturnsCorrectNameWithExtensionInPath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Folder1/Folder2/SomeDirectory.app"];
+	Directory *dir = [Directory directoryWithPath:@"/Folder1/Folder2/SomeDirectory.app"];
 	XCTAssertTrue([[dir name] isEqualToString:@"SomeDirectory.app"], @"Wrong directory name returned");
 }
 
 - (void)testReturnsCorrectNameWithoutExtensionWhenThereIsNoExtensionInThePath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Folder1/Folder2/SomeDirectory"];
+	Directory *dir = [Directory directoryWithPath:@"/Folder1/Folder2/SomeDirectory"];
 	XCTAssertTrue([[dir nameWithoutExtension] isEqualToString:@"SomeDirectory"]);
 }
 
 - (void)testReturnsCorrectNameWithoutExtensionWhenThereIsAnExtensionInThePath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Folder1/Folder2/SomeDirectory.app"];
+	Directory *dir = [Directory directoryWithPath:@"/Folder1/Folder2/SomeDirectory.app"];
 	XCTAssertTrue([[dir nameWithoutExtension] isEqualToString:@"SomeDirectory"]);
 }
 
@@ -339,19 +339,19 @@
 
 - (void)testReturnsNilWhereThereIsNoExtension
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Folder1/Folder2/SomeDirectory"];
+	Directory *dir = [Directory directoryWithPath:@"/Folder1/Folder2/SomeDirectory"];
 	XCTAssertTrue([dir extension] == nil, @"Should return nil when there is no extension");
 }
 
 - (void)testReturnsCorrectExtension
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Folder1/Folder2/SomeDirectory.app"];
+	Directory *dir = [Directory directoryWithPath:@"/Folder1/Folder2/SomeDirectory.app"];
 	XCTAssertTrue([[dir extension] isEqualToString:@"app"]);
 }
 
 - (void)testReturnsLastExtensionIfMany
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Folder1/Folder2/SomeDirectory.test.app"];
+	Directory *dir = [Directory directoryWithPath:@"/Folder1/Folder2/SomeDirectory.test.app"];
 	XCTAssertTrue([[dir extension] isEqualToString:@"app"], @"Should return the string after the last dot in the last path component");
 }
 
@@ -366,7 +366,7 @@
 
 - (void)testReturnsCorrectUTIForApplicationBundle
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app"];
 	XCTAssertEqualObjects([dir type], @"com.apple.application-bundle");
 }
 #endif
@@ -376,7 +376,7 @@
 #if !TARGET_OS_IPHONE
 - (void)testReturnsDirectoryIcon
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications"];
 	NSImage *icon = [dir icon];
 	XCTAssertNotNil(icon);
 	XCTAssertTrue([icon size].width != 0 && [icon size].height != 0);
@@ -387,19 +387,19 @@
 
 - (void)testCanTellThatDirectoryExists
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications"];
 	XCTAssertTrue([dir exists]);
 }
 
 - (void)testCanTellThatDirectoryDoesNotExist
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/Flagadah"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/Flagadah"];
 	XCTAssertFalse([dir exists]);
 }
 
 - (void)testCanTellThatDirectoryDoesNotExistWhenPointingToAFile
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
 	XCTAssertFalse([dir exists]);
 }
 
@@ -407,19 +407,19 @@
 
 - (void)testCanTellThatItemExistsIfDirectory
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS"];
 	XCTAssertTrue([dir itemExists]);
 }
 
 - (void)testCanTellThatItemExistsIfFile
 {
-	MFFile *file = [MFFile fileWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	File *file = [File fileWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
 	XCTAssertTrue([file itemExists]);
 }
 
 - (void)testCanTellThatItemDoesNotExistAtPath
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Abracadabra"];
+	Directory *dir = [Directory directoryWithPath:@"/Abracadabra"];
 	XCTAssertFalse([dir exists]);
 }
 
@@ -427,28 +427,28 @@
 
 - (void)testCanReturnParentDirectory
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app/Contents"];
-	assertThat([dir parent], equalTo([MFDirectory directoryWithPath:@"/Applications/iTunes.app"]));
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents"];
+	assertThat([dir parent], equalTo([Directory directoryWithPath:@"/Applications/iTunes.app"]));
 }
 
 - (void)testReturnsNilWhenInRootAndAskedForParentDirectory
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/"];
+	Directory *dir = [Directory directoryWithPath:@"/"];
 	assertThat([dir parent], is(nilValue()));
 }
 
 #if !TARGET_OS_IPHONE
 - (void)testReturnsAbsoluteParentDirectoryWhenInPathCreatedWithTilde
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"~"];
-	assertThat([dir parent], equalTo([MFDirectory directoryWithPath:@"/Users"]));
+	Directory *dir = [Directory directoryWithPath:@"~"];
+	assertThat([dir parent], equalTo([Directory directoryWithPath:@"/Users"]));
 }
 #endif
 
-- (void)testSubitemReturnsSubitemOfMFPathKind
+- (void)testSubitemReturnsSubitemOfPathKind
 {
-	MFPath *path = [_testDirectory subitem:@"Subitem 1"];
-	XCTAssertTrue([path isKindOfClass:[MFPath class]] && ![path isKindOfClass:[MFDirectory class]]);
+	Path *path = [_testDirectory subitem:@"Subitem 1"];
+	XCTAssertTrue([path isKindOfClass:[Path class]] && ![path isKindOfClass:[Directory class]]);
 	XCTAssertEqualObjects([path absolutePath], [[_testDirectory absolutePath] stringByAppendingPathComponent:@"Subitem 1"]);
 }
 
@@ -456,8 +456,8 @@
 
 - (void)testIsFileWorks
 {
-	MFDirectory *dirPointingToDirectory = [_testDirectory subdirectory:@"Folder A"];
-	MFDirectory *dirPointingToFile = [_testDirectory subdirectory:@"Folder A/File 1"];
+	Directory *dirPointingToDirectory = [_testDirectory subdirectory:@"Folder A"];
+	Directory *dirPointingToFile = [_testDirectory subdirectory:@"Folder A/File 1"];
 	
 	XCTAssertFalse([dirPointingToDirectory isFile]);
 	XCTAssertTrue([dirPointingToFile isFile]);
@@ -465,8 +465,8 @@
 
 - (void)testIsDirectoryWorks
 {
-	MFDirectory *dirPointingToDirectory = [_testDirectory subdirectory:@"Folder A"];
-	MFDirectory *dirPointingToFile = [_testDirectory subdirectory:@"Folder A/File 1"];
+	Directory *dirPointingToDirectory = [_testDirectory subdirectory:@"Folder A"];
+	Directory *dirPointingToFile = [_testDirectory subdirectory:@"Folder A/File 1"];
 	
 	XCTAssertTrue([dirPointingToDirectory isDirectory]);
 	XCTAssertFalse([dirPointingToFile isDirectory]);
@@ -476,7 +476,7 @@
 
 - (void)testCanDeleteIfPathExists
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder A"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder A"];
 	XCTAssertTrue([dir delete], @"delete should report success");
 	
 	XCTAssertFalse([_fileManager fileExistsAtPath:[dir absolutePath]], @"Folder should not exist anymore");
@@ -484,13 +484,13 @@
 
 - (void)testReportsDeletionSuccessIfPathDoesNotExist
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Abracadabra/SomeFolder"];
+	Directory *dir = [Directory directoryWithPath:@"/Abracadabra/SomeFolder"];
 	XCTAssertTrue([dir delete]);
 }
 
 - (void)testCanDeleteContentsIfPathExists
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder B"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder B"];
 	XCTAssertTrue([dir deleteContents], @"deleteContents should report success");
 	
 	NSArray *contents = [_fileManager contentsOfDirectoryAtPath:[dir absolutePath] error:nil];
@@ -501,7 +501,7 @@
 
 - (void)testCannotDeleteContentsIfPathDoesNotExistButDoesNotThrow
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Abracadabra/SomeFolder"];
+	Directory *dir = [Directory directoryWithPath:@"/Abracadabra/SomeFolder"];
 	XCTAssertFalse([dir deleteContents]);
 }
 
@@ -509,8 +509,8 @@
 
 - (void)testCanMoveToTrashIfPathExists
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *dirInTrash = [[MFDirectory trash] subdirectory:@"Folder B"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder B"];
+	Directory *dirInTrash = [[Directory trash] subdirectory:@"Folder B"];
 	
 	XCTAssertTrue([dir moveToTrash], @"moveToTrash should report success");
 	XCTAssertFalse([_fileManager fileExistsAtPath:[dir absolutePath]], @"Folder should not exist at original path anymore");
@@ -519,19 +519,19 @@
 
 - (void)testCannotMoveToTrashIfPathDoesNotExistButDoesNotThrow
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Abracadabra/SomeFolder"];
+	Directory *dir = [Directory directoryWithPath:@"/Abracadabra/SomeFolder"];
 	XCTAssertFalse([dir moveToTrash]);
 }
 
 #endif
 
-#pragma mark Tests for MFDirectory creation
+#pragma mark Tests for Directory creation
 
 - (void)testCanCreateDirectoryFromFileURL
 {
 	NSString *originalPath = @"/Applications/Utilities";
 	NSURL *url = [NSURL fileURLWithPath:originalPath];
-	MFDirectory *dir = [MFDirectory directoryWithFileURL:url];
+	Directory *dir = [Directory directoryWithFileURL:url];
 	XCTAssertEqualObjects([dir absolutePath], originalPath);
 }
 
@@ -539,19 +539,19 @@
 
 - (void)testCanTellThatDirectoryIsEmpty
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
 	XCTAssertTrue([dir isEmpty]);
 }
 
 - (void)testCanTellThatDirectoryIsNotEmpty
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications"];
 	XCTAssertFalse([dir isEmpty]);
 }
 
 - (void)testIsEmptyReturnsNoIfPathIsNotADirectory
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
 	XCTAssertFalse([dir isEmpty]);
 }
 
@@ -560,7 +560,7 @@
 #if !TARGET_OS_IPHONE
 - (void)testCanTellIfDirectoryIsAnApplicationBundle
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app"];
 	XCTAssertTrue([dir isApplicationBundle]);
 }
 #endif
@@ -570,7 +570,7 @@
 #if !TARGET_OS_IPHONE
 - (void)testCanTellIfDirectoryIsABundle
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app"];
 	XCTAssertTrue([dir isBundle]);
 }
 #endif
@@ -579,7 +579,7 @@
 
 - (void)testReturnsEmptyArrayIfDirectoryIsEmptyWhenAksingForItems
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
 	NSArray *items = [dir items];
 	
 	assertThat(items, is(notNilValue()));
@@ -588,24 +588,24 @@
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForItems
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
 	XCTAssertNil([dir items], @"Should return nil when asking for items and not a directory");
 }
 
-- (void)testReturnsCorrectInstancesOfMFDirectoryAndMFFileForDirectoryContents
+- (void)testReturnsCorrectInstancesOfDirectoryAndFileForDirectoryContents
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder B"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder B"];
 	NSArray *items = [dir items];
 	
 	assertThat(items, is(notNilValue()));
 	XCTAssertTrue([items count] == 4);
-	assertThat(items[0], isA([MFFile class]));
+	assertThat(items[0], isA([File class]));
 	assertThat([items[0] name], equalTo(@"File 3"));
-	assertThat(items[1], isA([MFFile class]));
+	assertThat(items[1], isA([File class]));
 	assertThat([items[1] name], equalTo(@"File 4"));
-	assertThat(items[2], isA([MFFile class]));
+	assertThat(items[2], isA([File class]));
 	assertThat([items[2] name], equalTo(@"File 5"));
-	assertThat(items[3], isA([MFDirectory class]));
+	assertThat(items[3], isA([Directory class]));
 	assertThat([items[3] name], equalTo(@"Subfolder 1"));
 }
 
@@ -613,7 +613,7 @@
 
 - (void)testReturnsEmptyArrayIfDirectoryIsEmptyWhenAksingForFiles
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
 	NSArray *items = [dir files];
 	
 	assertThat(items, is(notNilValue()));
@@ -622,22 +622,22 @@
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForFiles
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
 	XCTAssertNil([dir files], @"Should return nil when asking for files and not a directory");
 }
 
-- (void)testReturnsCorrectInstancesOfMFFileWhenAskingForFiles
+- (void)testReturnsCorrectInstancesOfFileWhenAskingForFiles
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder B"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder B"];
 	NSArray *items = [dir files];
 	
 	assertThat(items, is(notNilValue()));
 	assertThat(items, hasCountOf(3));
-	assertThat(items[0], isA([MFFile class]));
+	assertThat(items[0], isA([File class]));
 	assertThat([items[0] name], is(@"File 3"));
-	assertThat(items[1], isA([MFFile class]));
+	assertThat(items[1], isA([File class]));
 	assertThat([items[1] name], is(@"File 4"));
-	assertThat(items[2], isA([MFFile class]));
+	assertThat(items[2], isA([File class]));
 	assertThat([items[2] name], is(@"File 5"));
 }
 
@@ -645,7 +645,7 @@
 
 - (void)testReturnsEmptyArrayIfDirectoryIsEmptyWhenAksingForSubdirectories
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder C (Empty)"];
 	NSArray *items = [dir subdirectories];
 	
 	assertThat(items, is(notNilValue()));
@@ -654,18 +654,18 @@
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForSubdirectories
 {
-	MFDirectory *dir = [MFDirectory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
 	XCTAssertNil([dir subdirectories], @"Should return nil when asking for subdirectories and not a directory");
 }
 
-- (void)testReturnsCorrectInstancesOfMFDirectoryWhenAskingForSubdirectories
+- (void)testReturnsCorrectInstancesOfDirectoryWhenAskingForSubdirectories
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder B"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder B"];
 	NSArray *items = [dir subdirectories];
 	
 	assertThat(items, is(notNilValue()));
 	assertThat(items, hasCountOf(1));
-	assertThat(items[0], isA([MFDirectory class]));
+	assertThat(items[0], isA([Directory class]));
 	assertThat([items[0] name], is(@"Subfolder 1"));
 }
 
@@ -673,8 +673,8 @@
 
 - (void)testCanCreateNewInstanceByAppendingSubdirectoryNamePathComponent
 {
-	MFDirectory *directory = [MFDirectory directoryWithPath:@"/"];
-	MFDirectory *subdirectory = [directory subdirectory:@"Applications"];
+	Directory *directory = [Directory directoryWithPath:@"/"];
+	Directory *subdirectory = [directory subdirectory:@"Applications"];
 	XCTAssertEqualObjects([subdirectory absolutePath], @"/Applications");
 	XCTAssertEqualObjects([subdirectory absolutePathComponents][0], @"/");
 	XCTAssertEqualObjects([subdirectory absolutePathComponents][1], @"Applications");
@@ -682,8 +682,8 @@
 
 - (void)testCanCreateNewInstanceByAppendingFileNamePathComponent
 {
-	MFDirectory *directory = [MFDirectory directoryWithPath:@"~/Desktop"];
-	MFFile *file = [directory file:@"SomeFile.jpg"];
+	Directory *directory = [Directory directoryWithPath:@"~/Desktop"];
+	File *file = [directory file:@"SomeFile.jpg"];
 	XCTAssertEqualObjects([file path], @"~/Desktop/SomeFile.jpg");
 	XCTAssertEqualObjects([file pathComponents][0], @"~");
 	XCTAssertEqualObjects([file pathComponents][1], @"Desktop");
@@ -694,8 +694,8 @@
 
 - (void)testCanCreateDirectoryIfPathDoesntExist
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder Z"];
-	MFDirectory *returnedDir = [dir create];
+	Directory *dir = [_testDirectory subdirectory:@"Folder Z"];
+	Directory *returnedDir = [dir create];
 	
 	NSFileManager *manager = [NSFileManager defaultManager];
 	BOOL isDirectory;
@@ -708,9 +708,9 @@
 
 - (void)testDoesntRemoveDirectoryContentAndSucceedsIfPathExistsAndIsDirectory
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder A"];
+	Directory *dir = [_testDirectory subdirectory:@"Folder A"];
 	NSArray *contentsBefore = [self contentsAtPath:[dir absolutePath]];
-	MFDirectory *returnedDir = [dir create];
+	Directory *returnedDir = [dir create];
 	NSArray *contentsAfter = [self contentsAtPath:[dir absolutePath]];
 	
 	assertThat(contentsBefore, equalTo(contentsAfter));
@@ -719,8 +719,8 @@
 
 - (void)testDoesntDeleteFileAndFailsAndReturnsNilIfPathExistsAndIsFile
 {
-	MFDirectory *dir = [_testDirectory subdirectory:@"Folder A/File 1"];
-	MFDirectory *returnedDir = [dir create];
+	Directory *dir = [_testDirectory subdirectory:@"Folder A/File 1"];
+	Directory *returnedDir = [dir create];
 	
 	BOOL isDirectory;
 	BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:[dir absolutePath] isDirectory:&isDirectory];
@@ -734,36 +734,36 @@
 
 - (void)testThrowsIfTryingToCopyContentsToSamePath
 {
-	MFDirectory *sameDirectory = [MFDirectory directoryWithPath:[_testDirectory absolutePath]];
+	Directory *sameDirectory = [Directory directoryWithPath:[_testDirectory absolutePath]];
 	XCTAssertThrows([_testDirectory copyContentsTo:sameDirectory]);
 }
 
 - (void)testCopyContentsThrowsIfSourceIsNotADirectory
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder A/File 1"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
-	MFDirectory *result = [source copyContentsTo:destination];
+	Directory *source = [_testDirectory subdirectory:@"Folder A/File 1"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *result = [source copyContentsTo:destination];
 	
 	XCTAssertNil(result, @"Result should be nil because source is not a directory");
 }
 
 - (void)testCopyContentsReturnsNilIfOperationsRequiresOverwritingAndOverwriteIsDisabled
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder B (Copy)"];
-	MFDirectory *result1 = [source copyContentsTo:destination];
-	MFDirectory *result2 = [source copyContentsTo:destination overwrite:NO];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder B (Copy)"];
+	Directory *result1 = [source copyContentsTo:destination];
+	Directory *result2 = [source copyContentsTo:destination overwrite:NO];
 	XCTAssertNil(result1);
 	XCTAssertNil(result2);
 }
 
 - (void)testCopyContentsCopiesContentRecursively
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
-	MFDirectory *destinationSubdirectory = [destination subdirectory:@"Subfolder 1"];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *destinationSubdirectory = [destination subdirectory:@"Subfolder 1"];
 	
-	MFDirectory *result = [source copyContentsTo:destination];
+	Directory *result = [source copyContentsTo:destination];
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
 	NSArray *destinationContents = [self contentsAtPath:[destination absolutePath]];
 	NSArray *destinationSubdirectoryContents = [self contentsAtPath:[destinationSubdirectory absolutePath]];
@@ -777,9 +777,9 @@
 
 - (void)testCopyContentsCreatesDestinationDirectoryIfItDoesntExist
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder Z"];
-	MFDirectory *result = [source copyContentsTo:destination];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder Z"];
+	Directory *result = [source copyContentsTo:destination];
 	
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
 	NSArray *destinationContents = [self contentsAtPath:[destination absolutePath]];
@@ -790,17 +790,17 @@
 
 - (void)testCopyContentsCanOverwriteExistingFiles
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder B (Copy)"];
-	MFDirectory *result = [source copyContentsTo:destination overwrite:YES];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder B (Copy)"];
+	Directory *result = [source copyContentsTo:destination overwrite:YES];
 	
-	MFFile *sourceFile1 = [source file:@"File 4"];
-	MFDirectory *sourceSubfolder1 = [source subdirectory:@"Subfolder 1"];
+	File *sourceFile1 = [source file:@"File 4"];
+	Directory *sourceSubfolder1 = [source subdirectory:@"Subfolder 1"];
 	NSDate *sourceFile1ModificationDate = [self modificationDateForFileAtPath:[sourceFile1 absolutePath]];
 	NSDate *sourceSubfolderModificationDate = [self modificationDateForFileAtPath:[sourceSubfolder1 absolutePath]];
 	
-	MFFile *overwrittenFile1 = [destination file:@"File 4"];
-	MFDirectory *overwrittenSubfolder1 = [destination subdirectory:@"Subfolder 1"];
+	File *overwrittenFile1 = [destination file:@"File 4"];
+	Directory *overwrittenSubfolder1 = [destination subdirectory:@"Subfolder 1"];
 	NSDate *overwrittenFile1ModificationDate = [self modificationDateForFileAtPath:[overwrittenFile1 absolutePath]];
 	NSDate *overwrittenSubfolderModificationDate = [self modificationDateForFileAtPath:[overwrittenSubfolder1 absolutePath]];
 	
@@ -816,8 +816,8 @@
 
 - (void)testCopyCreatesIntermediaryDirectories
 {
-	MFDirectory *destinationDir = [_testDirectory subdirectory:@"Folder K/Folder J/Folder M"];
-	MFDirectory *copied = [[_testDirectory subdirectory:@"Folder A"] copyTo:destinationDir];
+	Directory *destinationDir = [_testDirectory subdirectory:@"Folder K/Folder J/Folder M"];
+	Directory *copied = [[_testDirectory subdirectory:@"Folder A"] copyTo:destinationDir];
 	
 	BOOL isDirectory;
 	BOOL directoryExists = [[NSFileManager defaultManager] fileExistsAtPath:[destinationDir absolutePath] isDirectory:&isDirectory];
@@ -833,7 +833,7 @@
 
 - (void)testThrowsIfTryingToCopyToSamePath
 {
-	MFDirectory *sameDirectory = [MFDirectory directoryWithPath:[_testDirectory absolutePath]];
+	Directory *sameDirectory = [Directory directoryWithPath:[_testDirectory absolutePath]];
 	XCTAssertThrows([_testDirectory copyTo:sameDirectory]);
 }
 
@@ -841,9 +841,9 @@
 {
 	NSError *error;
 	
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
-	MFDirectory *result = [source copyTo:destination overwrite:NO error:&error];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *result = [source copyTo:destination overwrite:NO error:&error];
 	
 	XCTAssertNotNil(error);
 	XCTAssertNil(result);
@@ -853,9 +853,9 @@
 {
 	NSError *error;
 	
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder B (Copy)/File 4"];
-	MFDirectory *result = [source copyTo:destination overwrite:NO error:&error];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder B (Copy)/File 4"];
+	Directory *result = [source copyTo:destination overwrite:NO error:&error];
 	
 	XCTAssertNotNil(error);
 	XCTAssertNotNil([error description]);
@@ -864,9 +864,9 @@
 
 - (void)testCopyToSucceedsIfDestinationDirectoryExistsAndOverwriting
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
-	MFDirectory *result = [source copyTo:destination overwrite:YES];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *result = [source copyTo:destination overwrite:YES];
 	
 	XCTAssertNotNil(result);
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
@@ -876,9 +876,9 @@
 
 - (void)testCopyToSucceedsIfDestinationDirectoryExistsAndPointsToFileAndOverwriting
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder B (Copy)/File 4"];
-	MFDirectory *result = [source copyTo:destination overwrite:YES];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder B (Copy)/File 4"];
+	Directory *result = [source copyTo:destination overwrite:YES];
 	
 	XCTAssertNotNil(result);
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
@@ -888,9 +888,9 @@
 
 - (void)testCopyToReturnsDirectoryIfSucceedsWithoutOverwrite
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder Z"];
-	MFDirectory *result = [source copyTo:destination];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder Z"];
+	Directory *result = [source copyTo:destination];
 	
 	XCTAssertNotNil(result);
 	assertThat(result, equalTo(destination));
@@ -898,7 +898,7 @@
 
 - (void)testCopyToThrowsIfDestinationIsNil
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
 	XCTAssertThrows([source copyTo:nil overwrite:YES error:nil]);
 }
 
@@ -906,7 +906,7 @@
 
 - (void)testThrowsIfTryingToMoveToSamePath
 {
-	MFDirectory *sameDirectory = [MFDirectory directoryWithPath:[_testDirectory absolutePath]];
+	Directory *sameDirectory = [Directory directoryWithPath:[_testDirectory absolutePath]];
 	XCTAssertThrows([_testDirectory moveTo:sameDirectory]);
 }
 
@@ -914,9 +914,9 @@
 {
 	NSError *error;
 	
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder B (Copy)/File 4"];
-	MFDirectory *result = [source moveTo:destination overwrite:NO error:&error];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder B (Copy)/File 4"];
+	Directory *result = [source moveTo:destination overwrite:NO error:&error];
 	
 	XCTAssertNotNil(error);
 	XCTAssertNotNil([error description]);
@@ -925,10 +925,10 @@
 
 - (void)testMoveToSucceedsIfDestinationDirectoryExistsAndOverwriting
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder C (Empty)"];
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
-	MFDirectory *result = [source moveTo:destination overwrite:YES];
+	Directory *result = [source moveTo:destination overwrite:YES];
 	NSArray *destinationContents = [self contentsAtPath:[destination absolutePath]];
 	
 	XCTAssertNotNil(result);
@@ -938,10 +938,10 @@
 
 - (void)testMoveToSucceedsIfDestinationDirectoryExistsAndPointsToFileAndOverwriting
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder B (Copy)/File 4"];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder B (Copy)/File 4"];
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
-	MFDirectory *result = [source moveTo:destination overwrite:YES];
+	Directory *result = [source moveTo:destination overwrite:YES];
 	NSArray *destinationContents = [self contentsAtPath:[destination absolutePath]];
 	
 	XCTAssertNotNil(result);
@@ -951,9 +951,9 @@
 
 - (void)testMoveToReturnsDirectoryIfSucceedsWithoutOverwrite
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
-	MFDirectory *destination = [_testDirectory subdirectory:@"Folder Z"];
-	MFDirectory *result = [source moveTo:destination];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *destination = [_testDirectory subdirectory:@"Folder Z"];
+	Directory *result = [source moveTo:destination];
 	
 	XCTAssertNotNil(result);
 	assertThat(result, equalTo(destination));
@@ -961,14 +961,14 @@
 
 - (void)testMoveToFailsIfDestinationIsNil
 {
-	MFDirectory *source = [_testDirectory subdirectory:@"Folder B"];
+	Directory *source = [_testDirectory subdirectory:@"Folder B"];
 	XCTAssertThrows([source moveTo:nil overwrite:YES error:nil]);
 }
 
 - (void)testMoveCreatesIntermediaryDirectories
 {
-	MFDirectory *destinationDir = [_testDirectory subdirectory:@"Folder K/Folder J/Folder M"];
-	MFDirectory *moved = [[_testDirectory subdirectory:@"Folder A"] moveTo:destinationDir];
+	Directory *destinationDir = [_testDirectory subdirectory:@"Folder K/Folder J/Folder M"];
+	Directory *moved = [[_testDirectory subdirectory:@"Folder A"] moveTo:destinationDir];
 	
 	BOOL isDirectory;
 	BOOL directoryExists = [[NSFileManager defaultManager] fileExistsAtPath:[destinationDir absolutePath] isDirectory:&isDirectory];
@@ -984,7 +984,7 @@
 
 - (void)testDescriptionIsEqualToAbsolutePath
 {
-	MFDirectory *directory = [_testDirectory subdirectory:@"Folder B"];
+	Directory *directory = [_testDirectory subdirectory:@"Folder B"];
 	NSString *descriptionString = [NSString stringWithFormat:@"%@", directory];
 	
 	assertThat([directory description], equalTo([directory absolutePath]));

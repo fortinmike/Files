@@ -1,5 +1,5 @@
 //
-//  MFTestEnvironmentHelpers.h
+//  TestEnvironmentHelpers.h
 //  Obsidian
 //
 //  Created by Michaël Fortin on 11/21/2013.
@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MFDirectory.h"
+#import "Directory.h"
 
-@interface MFTestEnvironmentHelpers : NSObject
+@interface TestEnvironmentHelpers : NSObject
 
 #pragma mark Test Files Management
 
-+ (MFDirectory *)testDirectory;
++ (Directory *)testDirectory;
 + (void)cleanupAndCopyTestFilesToTestDirectoryFromBundleResources;
 
 @end
