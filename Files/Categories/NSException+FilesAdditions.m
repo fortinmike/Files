@@ -17,7 +17,7 @@
 	NSString *reason = [[NSString alloc] initWithFormat:format arguments:args];
 	va_end(args);
 	
-	return [NSException exceptionWithName:@"APP_LEVEL_EXC" reason:reason userInfo:nil];
+	return [NSException exceptionWithName:@"FilesException" reason:reason userInfo:nil];
 }
 
 @end

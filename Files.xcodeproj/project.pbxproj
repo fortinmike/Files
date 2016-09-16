@@ -29,6 +29,7 @@
 		4C605AB81D8B9688006BB076 /* XMLValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C605AB71D8B9688006BB076 /* XMLValidator.m */; };
 		4C605ABB1D8B96F3006BB076 /* NSCodingImplementer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C605ABA1D8B96F2006BB076 /* NSCodingImplementer.m */; };
 		4C605ABC1D8B972E006BB076 /* NSException+FilesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AE41D8B4FD200531DFB /* NSException+FilesAdditions.m */; };
+		4C605ABE1D8C1838006BB076 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 4C605ABD1D8C1838006BB076 /* Resources */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		4C605AB71D8B9688006BB076 /* XMLValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLValidator.m; sourceTree = "<group>"; };
 		4C605AB91D8B96F2006BB076 /* NSCodingImplementer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCodingImplementer.h; sourceTree = "<group>"; };
 		4C605ABA1D8B96F2006BB076 /* NSCodingImplementer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCodingImplementer.m; sourceTree = "<group>"; };
+		4C605ABD1D8C1838006BB076 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				4C129AAF1D8B4CE600531DFB /* Info.plist */,
 				4C129AD31D8B4ED700531DFB /* Common */,
 				4C129ADB1D8B4F5E00531DFB /* Utilities */,
+				4C605ABD1D8C1838006BB076 /* Resources */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C605ABE1D8C1838006BB076 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

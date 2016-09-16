@@ -41,11 +41,11 @@
     return !([candidatePath hasPrefix:@"/"] || [candidatePath hasPrefix:@"~/"]) && ![candidatePath isEqualToString:@"~"];
 }
 
-// TODO: Needs testing!
 - (BOOL)candidateContainsSuccessiveSlashes:(NSString *)candidatePath
 {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"/{2,}" options:NSRegularExpressionCaseInsensitive error:nil];
-    return [regex matchesInString:candidatePath options:0 range:NSMakeRange(0, [candidatePath length])] > 0;
+    NSArray *matches = [regex matchesInString:candidatePath options:0 range:NSMakeRange(0, [candidatePath length])];
+    return matches.count > 0;
 }
 
 #pragma mark Equality
