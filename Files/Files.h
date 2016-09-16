@@ -19,13 +19,13 @@ FOUNDATION_EXPORT const unsigned char FilesVersionString[];
 #import "Directory.h"
 #import "File.h"
 
-#import "NSArray+Path.h"
+//#import "NSArray+Path.h"
 
 #if TARGET_OS_IPHONE
     #import "Directory+iOS.h"
     #import "File+iOS.h"
 #else
-    #import "Path+OSX.h"
-    #import "Directory+OSX.h"
-    #import "File+OSX.h"
+    #import "Path+macOS.h"
+    #import "Directory+macOS.h"
+    #import "File+macOS.h"
 #endif

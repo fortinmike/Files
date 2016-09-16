@@ -10,8 +10,8 @@
 #import "TestEnvironmentHelpers.h"
 #import "Directory.h"
 #import "File.h"
-#import "MFXMLValidator.h"
-#import "MFNSCodingImplementer.h"
+#import "XMLValidator.h"
+#import "NSCodingImplementer.h"
 
 #define FileTestFilesFolderName @"Directory+File"
 
@@ -44,10 +44,10 @@ File *_imageFile;
 
 - (void)testCanCreateFileWithFileURL
 {
-	NSURL *fileURL = [NSURL fileURLWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	NSURL *fileURL = [NSURL fileURLWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"];
 	File *file = [File fileWithFileURL:fileURL];
 	XCTAssertNotNil(file);
-	XCTAssertEqualObjects([file path], @"/Applications/iTunes.app/Contents/MacOS/iTunes");
+	XCTAssertEqualObjects([file path], @"/Applications/iTunes.app/Contents/macOS/iTunes");
 }
 
 #pragma mark Lifetime tests
@@ -62,7 +62,7 @@ File *_imageFile;
 
 - (void)testCanReturnValidFileURL
 {
-	NSURL *url = [[File fileWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"] fileURL];
+	NSURL *url = [[File fileWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"] fileURL];
 	XCTAssertTrue([url isFileURL]);
 	assertThat([url description], containsString(@"file://"));
 }
@@ -512,7 +512,7 @@ File *_imageFile;
 
 - (void)testCanArchiveAndUnarchiveObjectThatImplementsNSCodingInBinaryFormat
 {
-	MFNSCodingImplementer *object = [[MFNSCodingImplementer alloc] init];
+	NSCodingImplementer *object = [[NSCodingImplementer alloc] init];
 	object.number = 5;
 	
 	File *file = [_testDirectory file:@"archive"];
@@ -522,27 +522,27 @@ File *_imageFile;
 	id unarchivedObject = [file unarchive];
 	
 	XCTAssertNotNil(unarchivedObject, @"Unarchiving returned nil object");
-	XCTAssertTrue([unarchivedObject isKindOfClass:[MFNSCodingImplementer class]], @"Wrong class for unarchived object");
+	XCTAssertTrue([unarchivedObject isKindOfClass:[NSCodingImplementer class]], @"Wrong class for unarchived object");
 }
 
 - (void)testCanArchiveAndUnarchiveObjectThatImplementsNSCodingInXMLPlistFormat
 {
-	MFNSCodingImplementer *object = [[MFNSCodingImplementer alloc] init];
+	NSCodingImplementer *object = [[NSCodingImplementer alloc] init];
 	object.number = 5;
 	
 	File *file = [_testDirectory file:@"archive"];
 	
 	[file archiveAsXMLPlist:object];
 	
-	BOOL validXML = [MFXMLValidator validateXML:[file readString]];
+	BOOL validXML = [XMLValidatorValidatorValidator validateXML:[file readString]];
 	id unarchivedObject1 = [file unarchiveFromXMLPlist];
 	id unarchivedObject2 = [file unarchive];
 	
 	XCTAssertTrue(validXML, @"XML Plist archive did not contain valid XML");
 	XCTAssertNotNil(unarchivedObject1, @"Unarchiving returned nil object");
-	XCTAssertTrue([unarchivedObject1 isKindOfClass:[MFNSCodingImplementer class]], @"Wrong class for unarchived object");
+	XCTAssertTrue([unarchivedObject1 isKindOfClass:[NSCodingImplementer class]], @"Wrong class for unarchived object");
 	XCTAssertNotNil(unarchivedObject2, @"Unarchiving returned nil object");
-	XCTAssertTrue([unarchivedObject2 isKindOfClass:[MFNSCodingImplementer class]], @"Wrong class for unarchived object");
+	XCTAssertTrue([unarchivedObject2 isKindOfClass:[NSCodingImplementer class]], @"Wrong class for unarchived object");
 }
 
 - (void)testReturnsNilAndOutputsErrorWhenUnarchivingNonExistingPath

@@ -9,13 +9,13 @@
 #import "Directory.h"
 #import "DirectoryTests.h"
 #import "File.h"
+#import "NSException+FilesAdditions.h"
 #import "TestEnvironmentHelpers.h"
-#import "NSException+Additions.h"
 
 #if TARGET_OS_IPHONE
 #import "Directory+iOS.h"
 #else
-#import "Directory+OSX.h"
+#import "Directory+macOS.h"
 #endif
 
 #define DirectoryTestFilesFolderName @"Directory+File"
@@ -57,7 +57,7 @@
 	if (error)
 	{
 		NSString *reason = [NSString stringWithFormat:@"Helper could not obtain contents at specified path %@. Error: %@", path, error];
-		@throw [NSException exceptionWithReason:reason];
+		@throw [NSException exceptionWithReason:@"%@", reason];
 	}
 	
 	return contents;
@@ -73,7 +73,7 @@
 	if (error)
 	{
 		NSString *reason = [NSString stringWithFormat:@"Helper could not obtain attributes at specified path %@. Error: %@", path, error];
-		@throw [NSException exceptionWithReason:reason];
+		@throw [NSException exceptionWithReason:@"%@", reason];
 	}
 	
 	return [attributes fileModificationDate];
@@ -399,7 +399,7 @@
 
 - (void)testCanTellThatDirectoryDoesNotExistWhenPointingToAFile
 {
-	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"];
 	XCTAssertFalse([dir exists]);
 }
 
@@ -407,13 +407,13 @@
 
 - (void)testCanTellThatItemExistsIfDirectory
 {
-	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/macOS"];
 	XCTAssertTrue([dir itemExists]);
 }
 
 - (void)testCanTellThatItemExistsIfFile
 {
-	File *file = [File fileWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	File *file = [File fileWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"];
 	XCTAssertTrue([file itemExists]);
 }
 
@@ -551,7 +551,7 @@
 
 - (void)testIsEmptyReturnsNoIfPathIsNotADirectory
 {
-	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"];
 	XCTAssertFalse([dir isEmpty]);
 }
 
@@ -588,7 +588,7 @@
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForItems
 {
-	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"];
 	XCTAssertNil([dir items], @"Should return nil when asking for items and not a directory");
 }
 
@@ -622,7 +622,7 @@
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForFiles
 {
-	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"];
 	XCTAssertNil([dir files], @"Should return nil when asking for files and not a directory");
 }
 
@@ -654,7 +654,7 @@
 
 - (void)testReturnsNilIfPathIsNotADirectoryWhenAksingForSubdirectories
 {
-	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/MacOS/iTunes"];
+	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents/macOS/iTunes"];
 	XCTAssertNil([dir subdirectories], @"Should return nil when asking for subdirectories and not a directory");
 }
 

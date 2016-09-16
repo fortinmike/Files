@@ -22,6 +22,13 @@
 		4C129AE81D8B4FD200531DFB /* NSError+FilesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AE21D8B4FD200531DFB /* NSError+FilesAdditions.m */; };
 		4C129AE91D8B4FD200531DFB /* NSException+FilesAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129AE31D8B4FD200531DFB /* NSException+FilesAdditions.h */; };
 		4C129AEA1D8B4FD200531DFB /* NSException+FilesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AE41D8B4FD200531DFB /* NSException+FilesAdditions.m */; };
+		4C605AA61D8B941A006BB076 /* Directory+iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C605AA21D8B941A006BB076 /* Directory+iOS.h */; };
+		4C605AA71D8B941A006BB076 /* Directory+iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C605AA31D8B941A006BB076 /* Directory+iOS.m */; };
+		4C605AA81D8B941A006BB076 /* File+iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C605AA41D8B941A006BB076 /* File+iOS.h */; };
+		4C605AA91D8B941A006BB076 /* File+iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C605AA51D8B941A006BB076 /* File+iOS.m */; };
+		4C605AB81D8B9688006BB076 /* XMLValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C605AB71D8B9688006BB076 /* XMLValidator.m */; };
+		4C605ABB1D8B96F3006BB076 /* NSCodingImplementer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C605ABA1D8B96F2006BB076 /* NSCodingImplementer.m */; };
+		4C605ABC1D8B972E006BB076 /* NSException+FilesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AE41D8B4FD200531DFB /* NSException+FilesAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +65,18 @@
 		4C129AE21D8B4FD200531DFB /* NSError+FilesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+FilesAdditions.m"; sourceTree = "<group>"; };
 		4C129AE31D8B4FD200531DFB /* NSException+FilesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSException+FilesAdditions.h"; sourceTree = "<group>"; };
 		4C129AE41D8B4FD200531DFB /* NSException+FilesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSException+FilesAdditions.m"; sourceTree = "<group>"; };
+		4C605AA21D8B941A006BB076 /* Directory+iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Directory+iOS.h"; sourceTree = "<group>"; };
+		4C605AA31D8B941A006BB076 /* Directory+iOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Directory+iOS.m"; sourceTree = "<group>"; };
+		4C605AA41D8B941A006BB076 /* File+iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "File+iOS.h"; sourceTree = "<group>"; };
+		4C605AA51D8B941A006BB076 /* File+iOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "File+iOS.m"; sourceTree = "<group>"; };
+		4C605AAA1D8B943D006BB076 /* Directory+macOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Directory+macOS.h"; sourceTree = "<group>"; };
+		4C605AAB1D8B943D006BB076 /* Directory+macOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Directory+macOS.m"; sourceTree = "<group>"; };
+		4C605AAC1D8B943D006BB076 /* File+macOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "File+macOS.h"; sourceTree = "<group>"; };
+		4C605AAD1D8B943D006BB076 /* File+macOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "File+macOS.m"; sourceTree = "<group>"; };
+		4C605AB61D8B9688006BB076 /* XMLValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLValidator.h; sourceTree = "<group>"; };
+		4C605AB71D8B9688006BB076 /* XMLValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLValidator.m; sourceTree = "<group>"; };
+		4C605AB91D8B96F2006BB076 /* NSCodingImplementer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCodingImplementer.h; sourceTree = "<group>"; };
+		4C605ABA1D8B96F2006BB076 /* NSCodingImplementer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCodingImplementer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +123,8 @@
 				4C129AA21D8B4CE600531DFB /* Files.h */,
 				4C129AE01D8B4FD200531DFB /* Categories */,
 				4C129AB91D8B4E1700531DFB /* Common */,
-				4C129AC01D8B4E1700531DFB /* MacOS */,
+				4C605AA11D8B941A006BB076 /* iOS */,
+				4C129AC01D8B4E1700531DFB /* macOS */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -132,13 +152,17 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		4C129AC01D8B4E1700531DFB /* MacOS */ = {
+		4C129AC01D8B4E1700531DFB /* macOS */ = {
 			isa = PBXGroup;
 			children = (
 				4C129AC11D8B4E1700531DFB /* MFTag.h */,
 				4C129AC21D8B4E1700531DFB /* MFTag.m */,
+				4C605AAA1D8B943D006BB076 /* Directory+macOS.h */,
+				4C605AAB1D8B943D006BB076 /* Directory+macOS.m */,
+				4C605AAC1D8B943D006BB076 /* File+macOS.h */,
+				4C605AAD1D8B943D006BB076 /* File+macOS.m */,
 			);
-			path = MacOS;
+			path = macOS;
 			sourceTree = "<group>";
 		};
 		4C129AD31D8B4ED700531DFB /* Common */ = {
@@ -155,8 +179,12 @@
 		4C129ADB1D8B4F5E00531DFB /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				4C605AB61D8B9688006BB076 /* XMLValidator.h */,
+				4C605AB71D8B9688006BB076 /* XMLValidator.m */,
 				4C129ADC1D8B4F5E00531DFB /* TestEnvironmentHelpers.h */,
 				4C129ADD1D8B4F5E00531DFB /* TestEnvironmentHelpers.m */,
+				4C605AB91D8B96F2006BB076 /* NSCodingImplementer.h */,
+				4C605ABA1D8B96F2006BB076 /* NSCodingImplementer.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -172,6 +200,17 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		4C605AA11D8B941A006BB076 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				4C605AA21D8B941A006BB076 /* Directory+iOS.h */,
+				4C605AA31D8B941A006BB076 /* Directory+iOS.m */,
+				4C605AA41D8B941A006BB076 /* File+iOS.h */,
+				4C605AA51D8B941A006BB076 /* File+iOS.m */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -182,7 +221,9 @@
 				4C129AB01D8B4CE600531DFB /* Files.h in Headers */,
 				4C129AC31D8B4E1700531DFB /* Directory.h in Headers */,
 				4C129AC71D8B4E1700531DFB /* Path.h in Headers */,
+				4C605AA81D8B941A006BB076 /* File+iOS.h in Headers */,
 				4C129AE91D8B4FD200531DFB /* NSException+FilesAdditions.h in Headers */,
+				4C605AA61D8B941A006BB076 /* Directory+iOS.h in Headers */,
 				4C129AC51D8B4E1700531DFB /* File.h in Headers */,
 				4C129AE71D8B4FD200531DFB /* NSError+FilesAdditions.h in Headers */,
 			);
@@ -291,6 +332,8 @@
 				4C129AC41D8B4E1700531DFB /* Directory.m in Sources */,
 				4C129AEA1D8B4FD200531DFB /* NSException+FilesAdditions.m in Sources */,
 				4C129AC81D8B4E1700531DFB /* Path.m in Sources */,
+				4C605AA91D8B941A006BB076 /* File+iOS.m in Sources */,
+				4C605AA71D8B941A006BB076 /* Directory+iOS.m in Sources */,
 				4C129AE81D8B4FD200531DFB /* NSError+FilesAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,7 +342,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C605ABB1D8B96F3006BB076 /* NSCodingImplementer.m in Sources */,
 				4C129AD91D8B4ED700531DFB /* FileTests.m in Sources */,
+				4C605ABC1D8B972E006BB076 /* NSException+FilesAdditions.m in Sources */,
+				4C605AB81D8B9688006BB076 /* XMLValidator.m in Sources */,
 				4C129AD81D8B4ED700531DFB /* DirectoryTests.m in Sources */,
 				4C129ADE1D8B4F5E00531DFB /* TestEnvironmentHelpers.m in Sources */,
 			);
@@ -454,7 +500,7 @@
 		4C129AB71D8B4CE600531DFB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = FilesTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.irradiated.FilesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -465,7 +511,7 @@
 		4C129AB81D8B4CE600531DFB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = FilesTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.irradiated.FilesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

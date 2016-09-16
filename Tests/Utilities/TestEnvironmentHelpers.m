@@ -8,11 +8,11 @@
 
 #import "TestEnvironmentHelpers.h"
 #import "Directory.h"
-#import "NSException+Additions.h"
+#import "NSException+FilesAdditions.h"
 #if TARGET_OS_IPHONE
 	#import "Directory+iOS.h"
 #else
-	#import "Directory+OSX.h"
+	#import "Directory+macOS.h"
 #endif
 
 @implementation TestEnvironmentHelpers
