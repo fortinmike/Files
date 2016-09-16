@@ -56,9 +56,9 @@
 		4C129AC11D8B4E1700531DFB /* MFTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFTag.h; sourceTree = "<group>"; };
 		4C129AC21D8B4E1700531DFB /* MFTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFTag.m; sourceTree = "<group>"; };
 		4C129AD41D8B4ED700531DFB /* DirectoryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryTests.h; sourceTree = "<group>"; };
-		4C129AD51D8B4ED700531DFB /* DirectoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectoryTests.m; sourceTree = "<group>"; };
+		4C129AD51D8B4ED700531DFB /* DirectoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DirectoryTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4C129AD61D8B4ED700531DFB /* FileTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileTests.h; sourceTree = "<group>"; };
-		4C129AD71D8B4ED700531DFB /* FileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileTests.m; sourceTree = "<group>"; };
+		4C129AD71D8B4ED700531DFB /* FileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FileTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4C129ADC1D8B4F5E00531DFB /* TestEnvironmentHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestEnvironmentHelpers.h; sourceTree = "<group>"; };
 		4C129ADD1D8B4F5E00531DFB /* TestEnvironmentHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestEnvironmentHelpers.m; sourceTree = "<group>"; };
 		4C129AE11D8B4FD200531DFB /* NSError+FilesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+FilesAdditions.h"; sourceTree = "<group>"; };

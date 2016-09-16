@@ -130,13 +130,13 @@
 - (void)testCanCreateDirectoryWithPathThatStartsWithRoot
 {
 	Directory *dir = [Directory directoryWithPath:@"/Something/Test"];
-	assertThat([dir path], equalTo(@"/Something/Test"));
+	XCTAssertEqualObjects([dir path], @"/Something/Test");
 }
 
 - (void)testCanCreateDirectoryWithPathThatStartsWithTildeAndSlash
 {
 	Directory *dir = [Directory directoryWithPath:@"~/Something/Test"];
-	assertThat([dir path], equalTo(@"~/Something/Test"));
+	XCTAssertEqualObjects([dir path], @"~/Something/Test");
 }
 
 - (void)testCantCreateDirectoryWithPathThatDoesntStartWithRootOrTildeAndSlash
@@ -159,9 +159,9 @@
 	Directory *dir = [Directory directoryWithPath:@"/Library/Preferences/"];
 	
 	assertThat([dir pathComponents], hasCountOf(3));
-	assertThat([dir name], equalTo(@"Preferences"));
-	assertThat([dir path], equalTo(@"/Library/Preferences"));
-	assertThat([dir absolutePath], equalTo(@"/Library/Preferences"));
+	XCTAssertEqualObjects([dir name], @"Preferences");
+	XCTAssertEqualObjects([dir path], @"/Library/Preferences");
+	XCTAssertEqualObjects([dir absolutePath], @"/Library/Preferences");
 }
 
 #pragma mark Tests for description
@@ -227,9 +227,9 @@
 {
 	Directory *dir = [Directory directoryWithPath:_pathOutsideHomeFolder];
 	NSArray *components = [dir pathComponents];
-	assertThat(components[0], equalTo(@"/"));
-	assertThat(components[1], equalTo(@"Library"));
-	assertThat(components[2], equalTo(@"Preferences"));
+	XCTAssertEqualObjects(components[0], @"/");
+	XCTAssertEqualObjects(components[1], @"Library");
+	XCTAssertEqualObjects(components[2], @"Preferences");
 }
 
 #if !TARGET_OS_IPHONE
@@ -238,9 +238,9 @@
 {
 	Directory *dir = [Directory directoryWithPath:_pathOutsideHomeFolder];
 	NSArray *components = [dir absolutePathComponents];
-	assertThat(components[0], equalTo(@"/"));
-	assertThat(components[1], equalTo(@"Library"));
-	assertThat(components[2], equalTo(@"Preferences"));
+	XCTAssertEqualObjects(components[0], @"/");
+	XCTAssertEqualObjects(components[1], @"Library");
+	XCTAssertEqualObjects(components[2], @"Preferences");
 }
 
 // Created as: ~/Library/Preferences
@@ -251,19 +251,19 @@
 {
 	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
 	NSArray *components = [dir pathComponents];
-	assertThat(components[0], equalTo(@"~"));
-	assertThat(components[1], equalTo(@"Library"));
-	assertThat(components[2], equalTo(@"Preferences"));
+	XCTAssertEqualObjects(components[0], @"~");
+	XCTAssertEqualObjects(components[1], @"Library");
+	XCTAssertEqualObjects(components[2], @"Preferences");
 }
 
 - (void)testReturnsCorrectAbsolutePathComponentsWhenPathIsInHomeFolderAndCreatedAsAbbreviated
 {
 	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
 	NSArray *components = [dir absolutePathComponents];
-	assertThat(components[0], equalTo(@"/"));
-	assertThat(components[1], equalTo(@"Users"));
-	assertThat(components[3], equalTo(@"Library"));
-	assertThat(components[4], equalTo(@"Preferences"));
+	XCTAssertEqualObjects(components[0], @"/");
+	XCTAssertEqualObjects(components[1], @"Users");
+	XCTAssertEqualObjects(components[3], @"Library");
+	XCTAssertEqualObjects(components[4], @"Preferences");
 }
 
 // Created as: /Users/[username]/Library/Preferences
@@ -274,19 +274,19 @@
 {
 	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	NSArray *components = [dir pathComponents];
-	assertThat(components[0], equalTo(@"~"));
-	assertThat(components[1], equalTo(@"Library"));
-	assertThat(components[2], equalTo(@"Preferences"));
+	XCTAssertEqualObjects(components[0], @"~");
+	XCTAssertEqualObjects(components[1], @"Library");
+	XCTAssertEqualObjects(components[2], @"Preferences");
 }
 
 - (void)testReturnsCorrectAbsolutePathComponentsWhenPathIsInHomeFolderAndCreatedAsAbsolute
 {
 	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	NSArray *components = [dir absolutePathComponents];
-	assertThat(components[0], equalTo(@"/"));
-	assertThat(components[1], equalTo(@"Users"));
-	assertThat(components[3], equalTo(@"Library"));
-	assertThat(components[4], equalTo(@"Preferences"));
+	XCTAssertEqualObjects(components[0], @"/");
+	XCTAssertEqualObjects(components[1], @"Users");
+	XCTAssertEqualObjects(components[3], @"Library");
+	XCTAssertEqualObjects(components[4], @"Preferences");
 }
 
 #endif
@@ -298,7 +298,7 @@
 	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbsolute];
 	NSURL *fileURL = [dir fileURL];
 	XCTAssertTrue([fileURL isFileURL], @"Not a file URL!");
-	assertThat(fileURL, equalTo([NSURL fileURLWithPath:_pathInHomeFolderAbsolute]));
+	XCTAssertEqualObjects(fileURL, [NSURL fileURLWithPath:_pathInHomeFolderAbsolute]);
 }
 
 - (void)testReturnsCorrectFileURLFromAbbreviatedPath
@@ -306,7 +306,7 @@
 	Directory *dir = [Directory directoryWithPath:_pathInHomeFolderAbbreviated];
 	NSURL *fileURL = [dir fileURL];
 	XCTAssertTrue([fileURL isFileURL], @"Not a file URL!");
-	assertThat(fileURL, equalTo([NSURL fileURLWithPath:_pathInHomeFolderAbsolute]));
+	XCTAssertEqualObjects(fileURL, [NSURL fileURLWithPath:_pathInHomeFolderAbsolute]);
 }
 
 #pragma mark Tests for name and nameWithoutExtension
@@ -428,7 +428,7 @@
 - (void)testCanReturnParentDirectory
 {
 	Directory *dir = [Directory directoryWithPath:@"/Applications/iTunes.app/Contents"];
-	assertThat([dir parent], equalTo([Directory directoryWithPath:@"/Applications/iTunes.app"]));
+	XCTAssertEqualObjects([dir parent], [Directory directoryWithPath:@"/Applications/iTunes.app"]);
 }
 
 - (void)testReturnsNilWhenInRootAndAskedForParentDirectory
@@ -441,7 +441,7 @@
 - (void)testReturnsAbsoluteParentDirectoryWhenInPathCreatedWithTilde
 {
 	Directory *dir = [Directory directoryWithPath:@"~"];
-	assertThat([dir parent], equalTo([Directory directoryWithPath:@"/Users"]));
+	XCTAssertEqualObjects([dir parent], [Directory directoryWithPath:@"/Users"]);
 }
 #endif
 
@@ -600,13 +600,13 @@
 	assertThat(items, is(notNilValue()));
 	XCTAssertTrue([items count] == 4);
 	assertThat(items[0], isA([File class]));
-	assertThat([items[0] name], equalTo(@"File 3"));
+	XCTAssertEqualObjects([items[0] name], @"File 3");
 	assertThat(items[1], isA([File class]));
-	assertThat([items[1] name], equalTo(@"File 4"));
+	XCTAssertEqualObjects([items[1] name], @"File 4");
 	assertThat(items[2], isA([File class]));
-	assertThat([items[2] name], equalTo(@"File 5"));
+	XCTAssertEqualObjects([items[2] name], @"File 5");
 	assertThat(items[3], isA([Directory class]));
-	assertThat([items[3] name], equalTo(@"Subfolder 1"));
+	XCTAssertEqualObjects([items[3] name], @"Subfolder 1");
 }
 
 #pragma mark Tests for files
@@ -713,7 +713,7 @@
 	Directory *returnedDir = [dir create];
 	NSArray *contentsAfter = [self contentsAtPath:[dir absolutePath]];
 	
-	assertThat(contentsBefore, equalTo(contentsAfter));
+	XCTAssertEqualObjects(contentsBefore, contentsAfter);
 	XCTAssertEqualObjects(returnedDir, dir, @"Create should return an equal directory for call chaining");
 }
 
@@ -768,11 +768,11 @@
 	NSArray *destinationContents = [self contentsAtPath:[destination absolutePath]];
 	NSArray *destinationSubdirectoryContents = [self contentsAtPath:[destinationSubdirectory absolutePath]];
 	
-	assertThat(destinationContents, equalTo(sourceContents));
+	XCTAssertEqualObjects(destinationContents, sourceContents);
 	assertThat(destinationSubdirectoryContents, hasCountOf(2));
 	assertThat(destinationSubdirectoryContents, hasItem(@"File 6"));
 	assertThat(destinationSubdirectoryContents, hasItem(@"File 7"));
-	assertThat(result, equalTo(destination));
+	XCTAssertEqualObjects(result, destination);
 }
 
 - (void)testCopyContentsCreatesDestinationDirectoryIfItDoesntExist
@@ -784,8 +784,8 @@
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
 	NSArray *destinationContents = [self contentsAtPath:[destination absolutePath]];
 	
-	assertThat(destinationContents, equalTo(sourceContents));
-	assertThat(result, equalTo(destination));
+	XCTAssertEqualObjects(destinationContents, sourceContents);
+	XCTAssertEqualObjects(result, destination);
 }
 
 - (void)testCopyContentsCanOverwriteExistingFiles
@@ -805,8 +805,8 @@
 	NSDate *overwrittenSubfolderModificationDate = [self modificationDateForFileAtPath:[overwrittenSubfolder1 absolutePath]];
 	
 	XCTAssertNotNil(result, @"Failed to overwrite existing files?");
-	assertThat(overwrittenFile1ModificationDate, equalTo(sourceFile1ModificationDate));
-	assertThat(overwrittenSubfolderModificationDate, equalTo(sourceSubfolderModificationDate));
+	XCTAssertEqualObjects(overwrittenFile1ModificationDate, sourceFile1ModificationDate);
+	XCTAssertEqualObjects(overwrittenSubfolderModificationDate, sourceSubfolderModificationDate);
 }
 
 - (void)testCopyContentsToFailsIfDestinationIsNil
@@ -871,7 +871,7 @@
 	XCTAssertNotNil(result);
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
 	NSArray *destinationContents = [self contentsAtPath:[destination absolutePath]];
-	assertThat(destinationContents, equalTo(sourceContents));
+	XCTAssertEqualObjects(destinationContents, sourceContents);
 }
 
 - (void)testCopyToSucceedsIfDestinationDirectoryExistsAndPointsToFileAndOverwriting
@@ -883,7 +883,7 @@
 	XCTAssertNotNil(result);
 	NSArray *sourceContents = [self contentsAtPath:[source absolutePath]];
 	NSArray *destinationContents = [self contentsAtPath:[destination absolutePath]];
-	assertThat(destinationContents, equalTo(sourceContents));
+	XCTAssertEqualObjects(destinationContents, sourceContents);
 }
 
 - (void)testCopyToReturnsDirectoryIfSucceedsWithoutOverwrite
@@ -893,7 +893,7 @@
 	Directory *result = [source copyTo:destination];
 	
 	XCTAssertNotNil(result);
-	assertThat(result, equalTo(destination));
+	XCTAssertEqualObjects(result, destination);
 }
 
 - (void)testCopyToThrowsIfDestinationIsNil
@@ -933,7 +933,7 @@
 	
 	XCTAssertNotNil(result);
 	XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[source absolutePath]], @"Source not removed");
-	assertThat(destinationContents, equalTo(sourceContents));
+	XCTAssertEqualObjects(destinationContents, sourceContents);
 }
 
 - (void)testMoveToSucceedsIfDestinationDirectoryExistsAndPointsToFileAndOverwriting
@@ -946,7 +946,7 @@
 	
 	XCTAssertNotNil(result);
 	XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[source absolutePath]], @"Source not removed");
-	assertThat(destinationContents, equalTo(sourceContents));
+	XCTAssertEqualObjects(destinationContents, sourceContents);
 }
 
 - (void)testMoveToReturnsDirectoryIfSucceedsWithoutOverwrite
@@ -956,7 +956,7 @@
 	Directory *result = [source moveTo:destination];
 	
 	XCTAssertNotNil(result);
-	assertThat(result, equalTo(destination));
+	XCTAssertEqualObjects(result, destination);
 }
 
 - (void)testMoveToFailsIfDestinationIsNil
@@ -987,8 +987,8 @@
 	Directory *directory = [_testDirectory subdirectory:@"Folder B"];
 	NSString *descriptionString = [NSString stringWithFormat:@"%@", directory];
 	
-	assertThat([directory description], equalTo([directory absolutePath]));
-	assertThat(descriptionString, equalTo([directory absolutePath]));
+	XCTAssertEqualObjects([directory description], [directory absolutePath]);
+	XCTAssertEqualObjects(descriptionString, [directory absolutePath]);
 }
 
 @end

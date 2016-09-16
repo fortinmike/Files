@@ -570,8 +570,8 @@ File *_imageFile;
 	File *file = [_testDirectory file:@"Blah"];
 	NSString *descriptionString = [NSString stringWithFormat:@"%@", file];
 	
-	assertThat([file description], equalTo([file absolutePath]));
-	assertThat(descriptionString, equalTo([file absolutePath]));
+	XCTAssertEqualObjects([file description], [file absolutePath]);
+	XCTAssertEqualObjects(descriptionString, [file absolutePath]);
 }
 
 @end
