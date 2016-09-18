@@ -22,46 +22,134 @@
 
 #pragma mark Information
 
-- (NSString *)path; // Returns the full path (with a tilde, where appropriate, representing the user's home folder).
-- (NSString *)absolutePath; // Returns the absolute path (fully expanded).
-- (NSArray<NSString *> *)pathComponents; // Returns an array of NSStrings containing all of the path components.
-- (NSArray<NSString *> *)absolutePathComponents; // Returns an array of NSStrings containing all of the absolute path's components.
-- (NSURL *)fileURL; // Returns a fully qualified file URL for the item (file URLs are prefixed with file:// and can point to a directory as well as a file).
-- (NSString *)name; // Returns the last path component (either the file name including its extension or the directory name with its extension if a package).
-- (NSString *)nameWithoutExtension; // Returns the file or directory/package name excluding its extension.
-- (NSString *)extension; // Returns the file or package extension. Returns nil if the file has no extension or the directory isn't a package.
+/**
+ Returns the full path, relative to the user's home directory (~) if applicable.
+ */
+- (NSString *)path;
+
+/**
+ Returns the absolute path (fully expanded).
+ */
+- (NSString *)absolutePath;
+
+/**
+ Returns an array of NSStrings containing all of the path components.
+ */
+- (NSArray<NSString *> *)pathComponents;
+
+/**
+ Returns an array of NSStrings containing all of the absolute path's components.
+ */
+- (NSArray<NSString *> *)absolutePathComponents;
+
+/**
+ Returns a fully qualified file URL for the item (file URLs are prefixed with file:// and can point to a directory as well as a file).
+ */
+- (NSURL *)fileURL;
+
+/**
+ Returns the last path component (either the file name including its extension or the directory name with its extension if a package).
+ */
+- (NSString *)name;
+
+/**
+ Returns the file or directory/package name excluding its extension.
+ */
+- (NSString *)nameWithoutExtension;
+
+/**
+ Returns the file or package extension. Returns nil if the file has no extension or the directory isn't a package.
+ */
+- (NSString *)extension;
 
 #pragma mark On-Disk Inspection
 
-- (BOOL)exists; // Checks whether the path exists on disk and corresponds to the appropriate Path subclass.
-- (BOOL)itemExists; // Checks whether the path exists on disk (disregarding whether the path is a directory or a file)
-- (BOOL)isDirectory; // Checks whether the path is a directory on disk.
-- (BOOL)isFile; // Checks whether the path is a file on disk.
+/**
+ Checks whether the path exists on disk and corresponds to the appropriate Path subclass.
+ */
+- (BOOL)exists;
+
+/**
+ Checks whether the path exists on disk (disregarding whether the path is a directory or a file).
+ */
+- (BOOL)itemExists;
+
+/**
+ Checks whether the path is a directory on disk.
+ */
+- (BOOL)isDirectory;
+
+/**
+ Checks whether the path is a file on disk.
+ */
+- (BOOL)isFile;
 
 #pragma mark Item Attributes
 
-- (NSDictionary *)attributes; // Returns a dictionary containing file or directory attributes as returned from NSFileManager.
-- (unsigned long long)size; // Returns the size of the item on disk (file or directory contents).
+/**
+ Returns a dictionary containing file or directory attributes as returned from NSFileManager.
+ */
+- (NSDictionary *)attributes;
+
+/**
+ Returns the size of the item on disk (file or directory contents).
+ */
+- (unsigned long long)size;
+
+    
+/**
+ The item's creation date.
+ */
 - (NSDate *)creationDate;
+
+/**
+ The item's last modification date.
+ */
 - (NSDate *)modificationDate;
-- (void)setExcludeFromBackup:(BOOL)exclude; // Excludes the path from the iOS backup process (iTunes or iCloud).
+
+/**
+ Excludes the path from the iOS backup process (iTunes or iCloud).
+ */
+- (void)setExcludeFromBackup:(BOOL)exclude;
 
 #pragma mark File System Attributes
 
-- (NSDictionary *)fileSystemAttributes; // Returns a dictionary containing the file system attributes of the mounted volume on which the path resides.
-- (unsigned long long)fileSystemSize; // Returns the total size of the mounted volume on which the path resides.
-- (unsigned long long)fileSystemFreeSize; // Returns the total free size in the mounted volume on which the path resides.
+/**
+ Returns a dictionary containing the file system attributes of the mounted volume on which the path resides.
+ */
+- (NSDictionary *)fileSystemAttributes;
+
+/**
+ Returns the total size of the volume on which the item resides.
+ */
+- (unsigned long long)fileSystemSize;
+
+/**
+ Returns the total free size in the volume on which the path resides.
+ */
+- (unsigned long long)fileSystemFreeSize;
 
 #pragma mark Creating Other Instances
 
-- (Directory *)parent; // Returns the parent directory.
-- (Path *)subitem:(NSString *)name; // Returns a subitem of the current path with the same concrete type as the object on which the method is called.
-- (Path *)subitemWithNumberSuffixIfExists:(NSString *)name; // Same but with a number suffix if the file already exists.
+/**
+ Returns the parent directory.
+ */
+- (Directory *)parent;
+
+/**
+ Returns a subitem of the current path with the same concrete type as the object on which the method is called.
+ */
+- (Path *)subitem:(NSString *)name;
+
+/**
+ Returns a subitem of the current path with the same concrete type as the object on which the method is called.
+ Adds a numeric suffix if there is already something on disk with that name.
+ */
+- (Path *)subitemWithNumericSuffixIfExists:(NSString *)name;
 
 #pragma mark Operations
 
 - (BOOL)delete;
-- (BOOL)deleteAndSilenceLogging:(BOOL)silenceLogging;
 - (Path *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
 - (Path *)createSymlinkAtPath:(Path *)path;
 - (Path *)createSymlinkAtPath:(Path *)path error:(NSError **)error;

@@ -18,36 +18,94 @@
 
 #pragma mark On-Disk Inspection
 
-- (BOOL)isEmpty; // Returns whether the directory is empty or not.
-- (NSArray<Path *> *)items; // Returns an array containing instances of File and Directory representing all of the items in the directory.
-- (NSArray<File *> *)files; // Returns an array of File objects, one for each file in the directory.
-- (NSArray<File *> *)filesWithExtension:(NSString *)extension; // Returns only files with the specified extension.
-- (NSArray<Directory *> *)subdirectories; // Returns an array of Directory objects, one for each directory in the directory.
+/**
+ Returns whether the directory is empty or not.
+ */
+- (BOOL)isEmpty;
+
+/**
+ Returns an array containing instances of File and Directory representing all of the items in the directory.
+ */
+- (NSArray<Path *> *)items;
+
+/**
+ Returns an array of File objects, one for each file in the directory.
+ */
+- (NSArray<File *> *)files;
+
+/**
+ Returns only files with the specified extension.
+ */
+- (NSArray<File *> *)filesWithExtension:(NSString *)extension;
+
+/**
+ Returns an array of Directory objects, one for each directory in the directory.
+ */
+- (NSArray<Directory *> *)subdirectories;
 
 #pragma mark Creating Other Directories
 
 - (Directory *)subdirectory:(NSString *)name;
+
 - (Directory *)subdirectoryWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
-- (Directory *)subdirectoryWithNumberSuffixIfExists:(NSString *)name;
+
+- (Directory *)subdirectoryWithNumericSuffixIfExists:(NSString *)name;
+
 
 #pragma mark Creating Files
 
 - (File *)file:(NSString *)name;
+
 - (File *)fileWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
+
 - (File *)fileWithName:(NSString *)name extension:(NSString *)extension;
+
 - (File *)fileWithNumberSuffixIfExists:(NSString *)name;
 
 #pragma mark Operations
 
 - (BOOL)deleteContents;
-- (Directory *)create; // Creates the directory if it does not exist.
-- (Directory *)copyContentsTo:(Directory *)destination; // Copies the contents of the directory in another directory.
+
+/**
+ Creates the directory if it does not exist.
+ */
+- (Directory *)create;
+
+/**
+ Copies the contents of the directory in another directory.
+ */
+- (Directory *)copyContentsTo:(Directory *)destination;
+
+/**
+ Copies the contents of the directory in another directory, optionally overwriting any existing files and directories.
+ */
 - (Directory *)copyContentsTo:(Directory *)destination overwrite:(BOOL)overwrite;
-- (Directory *)copyTo:(Directory *)destination; // Copies the directory in another directory.
+
+/**
+ Copies the directory into another directory.
+ */
+- (Directory *)copyTo:(Directory *)destination;
+
+/**
+ Copies the directory into another directory, optionally overwriting any existing directory.
+ */
 - (Directory *)copyTo:(Directory *)destination overwrite:(BOOL)overwrite;
+
 - (Directory *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
-- (Directory *)moveTo:(Directory *)destination; // Moves the directory in another directory.
+
+/**
+ Moves the directory in another directory.
+ */
+- (Directory *)moveTo:(Directory *)destination;
+
+/**
+ Moves the directory in another directory, optionally overwriting any existing directory.
+ */
 - (Directory *)moveTo:(Directory *)destination overwrite:(BOOL)overwrite;
+
+/**
+ Moves the directory in another directory, optionally overwriting any existing directory.
+ */
 - (Directory *)moveTo:(Directory *)destination overwrite:(BOOL)overwrite error:(NSError **)error;
 
 @end
