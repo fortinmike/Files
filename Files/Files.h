@@ -3,7 +3,7 @@
 //  Files
 //
 //  Created by Michaël Fortin on 2016-09-15.
-//  Copyright © 2016 fortinmike. All rights reserved.
+//  Copyright © 2016 irradiated.net. All rights reserved.
 //
 
 //! Project version number for Files.

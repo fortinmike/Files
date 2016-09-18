@@ -9,7 +9,7 @@
 #import "NSError+FilesAdditions.h"
 #import "NSException+FilesAdditions.h"
 
-#define MFAppErrorDomain @"MFAppErrorDomain"
+#define FilesErrorDomain @"FilesErrorDomain"
 
 @implementation NSError (FilesAdditions)
 
@@ -39,7 +39,7 @@
 	
 	NSString *description = [[NSString alloc] initWithFormat:format arguments:args];
 	NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : description };
-	NSError *error = [NSError errorWithDomain:MFAppErrorDomain code:code userInfo:userInfo];
+	NSError *error = [NSError errorWithDomain:FilesErrorDomain code:code userInfo:userInfo];
 	return error;
 }
 
