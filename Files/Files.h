@@ -16,16 +16,16 @@ FOUNDATION_EXPORT const unsigned char FilesVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <Files/PublicHeader.h>
 
-#import "Directory.h"
-#import "File.h"
+#import <Files/Directory.h>
+#import <Files/File.h>
 
 //#import "NSArray+Path.h"
 
 #if TARGET_OS_IPHONE
-    #import "Directory+iOS.h"
-    #import "File+iOS.h"
+    #import <Files/Directory+iOS.h>
+    #import <Files/File+iOS.h>
 #else
-    #import "Path+macOS.h"
-    #import "Directory+macOS.h"
-    #import "File+macOS.h"
+    #import <Files/Path+macOS.h>
+    #import <Files/Directory+macOS.h>
+    #import <Files/File+macOS.h>
 #endif
