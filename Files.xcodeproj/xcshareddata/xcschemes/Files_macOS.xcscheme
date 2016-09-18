@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4C129A9E1D8B4CE600531DFB"
-               BuildableName = "Files.framework"
-               BlueprintName = "Files"
+               BlueprintIdentifier = "4C605ADC1D8C1CF2006BB076"
+               BuildableName = "Files_macOS.framework"
+               BlueprintName = "Files_macOS"
                ReferencedContainer = "container:Files.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,23 +28,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4C129AA71D8B4CE600531DFB"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
-               ReferencedContainer = "container:Files.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4C129A9E1D8B4CE600531DFB"
-            BuildableName = "Files.framework"
-            BlueprintName = "Files"
+            BlueprintIdentifier = "4C605ADC1D8C1CF2006BB076"
+            BuildableName = "Files_macOS.framework"
+            BlueprintName = "Files_macOS"
             ReferencedContainer = "container:Files.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,9 +54,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4C129A9E1D8B4CE600531DFB"
-            BuildableName = "Files.framework"
-            BlueprintName = "Files"
+            BlueprintIdentifier = "4C605ADC1D8C1CF2006BB076"
+            BuildableName = "Files_macOS.framework"
+            BlueprintName = "Files_macOS"
             ReferencedContainer = "container:Files.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -82,9 +72,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4C129A9E1D8B4CE600531DFB"
-            BuildableName = "Files.framework"
-            BlueprintName = "Files"
+            BlueprintIdentifier = "4C605ADC1D8C1CF2006BB076"
+            BuildableName = "Files_macOS.framework"
+            BlueprintName = "Files_macOS"
             ReferencedContainer = "container:Files.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -79,6 +79,7 @@
 		4C605AB91D8B96F2006BB076 /* NSCodingImplementer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCodingImplementer.h; sourceTree = "<group>"; };
 		4C605ABA1D8B96F2006BB076 /* NSCodingImplementer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCodingImplementer.m; sourceTree = "<group>"; };
 		4C605ABD1D8C1838006BB076 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
+		4C605ADD1D8C1CF2006BB076 /* Files.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Files.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +95,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C129AA91D8B4CE600531DFB /* Files.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C605AD91D8C1CF2006BB076 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +122,7 @@
 			children = (
 				4C129A9F1D8B4CE600531DFB /* Files.framework */,
 				4C129AA81D8B4CE600531DFB /* Tests.xctest */,
+				4C605ADD1D8C1CF2006BB076 /* Files.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -232,12 +241,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4C605ADA1D8C1CF2006BB076 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4C129A9E1D8B4CE600531DFB /* Files */ = {
+		4C129A9E1D8B4CE600531DFB /* Files_iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C129AB31D8B4CE600531DFB /* Build configuration list for PBXNativeTarget "Files" */;
+			buildConfigurationList = 4C129AB31D8B4CE600531DFB /* Build configuration list for PBXNativeTarget "Files_iOS" */;
 			buildPhases = (
 				4C129A9A1D8B4CE600531DFB /* Sources */,
 				4C129A9B1D8B4CE600531DFB /* Frameworks */,
@@ -248,7 +264,7 @@
 			);
 			dependencies = (
 			);
-			name = Files;
+			name = Files_iOS;
 			productName = Files;
 			productReference = 4C129A9F1D8B4CE600531DFB /* Files.framework */;
 			productType = "com.apple.product-type.framework";
@@ -271,6 +287,24 @@
 			productReference = 4C129AA81D8B4CE600531DFB /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		4C605ADC1D8C1CF2006BB076 /* Files_macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C605AE21D8C1CF2006BB076 /* Build configuration list for PBXNativeTarget "Files_macOS" */;
+			buildPhases = (
+				4C605AD81D8C1CF2006BB076 /* Sources */,
+				4C605AD91D8C1CF2006BB076 /* Frameworks */,
+				4C605ADA1D8C1CF2006BB076 /* Headers */,
+				4C605ADB1D8C1CF2006BB076 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Files_macOS;
+			productName = Files_macOS;
+			productReference = 4C605ADD1D8C1CF2006BB076 /* Files.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -289,6 +323,10 @@
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
+					4C605ADC1D8C1CF2006BB076 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 4C129A991D8B4CE600531DFB /* Build configuration list for PBXProject "Files" */;
@@ -303,7 +341,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4C129A9E1D8B4CE600531DFB /* Files */,
+				4C129A9E1D8B4CE600531DFB /* Files_iOS */,
+				4C605ADC1D8C1CF2006BB076 /* Files_macOS */,
 				4C129AA71D8B4CE600531DFB /* Tests */,
 			);
 		};
@@ -322,6 +361,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C605ABE1D8C1838006BB076 /* Resources in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C605ADB1D8C1CF2006BB076 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,12 +401,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4C605AD81D8C1CF2006BB076 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		4C129AAB1D8B4CE600531DFB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4C129A9E1D8B4CE600531DFB /* Files */;
+			target = 4C129A9E1D8B4CE600531DFB /* Files_iOS */;
 			targetProxy = 4C129AAA1D8B4CE600531DFB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -407,9 +460,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_FILE = Files/Info.plist;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = net.irradiated.Files;
+				PRODUCT_NAME = Files;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -454,8 +509,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_FILE = Files/Info.plist;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = net.irradiated.Files;
+				PRODUCT_NAME = Files;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -473,11 +530,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Files/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.irradiated.Files;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
@@ -491,11 +546,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Files/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.irradiated.Files;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
@@ -523,6 +576,44 @@
 			};
 			name = Release;
 		};
+		4C605AE31D8C1CF2006BB076 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		4C605AE41D8C1CF2006BB076 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -535,7 +626,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4C129AB31D8B4CE600531DFB /* Build configuration list for PBXNativeTarget "Files" */ = {
+		4C129AB31D8B4CE600531DFB /* Build configuration list for PBXNativeTarget "Files_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C129AB41D8B4CE600531DFB /* Debug */,
@@ -549,6 +640,15 @@
 			buildConfigurations = (
 				4C129AB71D8B4CE600531DFB /* Debug */,
 				4C129AB81D8B4CE600531DFB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C605AE21D8C1CF2006BB076 /* Build configuration list for PBXNativeTarget "Files_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C605AE31D8C1CF2006BB076 /* Debug */,
+				4C605AE41D8C1CF2006BB076 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
