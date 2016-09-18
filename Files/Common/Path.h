@@ -24,8 +24,8 @@
 
 - (NSString *)path; // Returns the full path (with a tilde, where appropriate, representing the user's home folder).
 - (NSString *)absolutePath; // Returns the absolute path (fully expanded).
-- (NSArray *)pathComponents; // Returns an array of NSStrings containing all of the path components.
-- (NSArray *)absolutePathComponents; // Returns an array of NSStrings containing all of the absolute path's components.
+- (NSArray<NSString *> *)pathComponents; // Returns an array of NSStrings containing all of the path components.
+- (NSArray<NSString *> *)absolutePathComponents; // Returns an array of NSStrings containing all of the absolute path's components.
 - (NSURL *)fileURL; // Returns a fully qualified file URL for the item (file URLs are prefixed with file:// and can point to a directory as well as a file).
 - (NSString *)name; // Returns the last path component (either the file name including its extension or the directory name with its extension if a package).
 - (NSString *)nameWithoutExtension; // Returns the file or directory/package name excluding its extension.

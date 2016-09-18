@@ -47,17 +47,17 @@
 	return [[self items] count] == 0;
 }
 
-- (NSArray *)items
+- (NSArray<Path *> *)items
 {
 	return [self itemsOfKind:nil];
 }
 
-- (NSArray *)files
+- (NSArray<File *> *)files
 {
 	return [self itemsOfKind:[File class]];
 }
 
-- (NSArray *)filesWithExtension:(NSString *)extension
+- (NSArray<File *> *)filesWithExtension:(NSString *)extension
 {
 	NSMutableArray *filesWithExtension = [NSMutableArray array];
 	
@@ -70,7 +70,7 @@
 	return [filesWithExtension copy];
 }
 
-- (NSArray *)subdirectories
+- (NSArray<Directory *> *)subdirectories
 {
 	return [self itemsOfKind:[Directory class]];
 }

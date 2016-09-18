@@ -30,8 +30,8 @@
 
 #pragma mark Tags
 
-- (NSArray *)tags; // An array of Tag instances representing the (Mavericks and up) tags that are currently applied to the specified path
-- (void)setTags:(NSArray *)tagNames; // Replaces the file's current tags with the specified array of tag names
+- (NSArray<Tag *> *)tags; // An array of Tag instances representing the (Mavericks and up) tags that are currently applied to the specified path
+- (void)setTags:(NSArray<NSString *> *)tagNames; // Replaces the file's current tags with the specified array of tag names
 - (void)addTag:(NSString *)name; // Tags the file with the specified tag name. Won't add the tag if the file already has it.
 - (void)removeTag:(NSString *)tagName; // Removes the tag if present
 - (void)removeAllTags;

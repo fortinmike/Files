@@ -59,7 +59,7 @@
 // http://stackoverflow.com/questions/1072308/parse-plist-nsstring-into-nsdictionary
 // http://www.cocoanetics.com/2012/03/reading-and-writing-extended-file-attributes/
 
-- (NSArray *)tags
+- (NSArray<Tag *> *)tags
 {
 	if (![self runningMavericksOrLater]) return @[];
 	
@@ -96,7 +96,7 @@
 	return tags ? tags : @[];
 }
 
-- (void)setTags:(NSArray *)tagNames
+- (void)setTags:(NSArray<NSString *> *)tagNames
 {
 	[[self fileURL] setResourceValue:tagNames forKey:NSURLTagNamesKey error:nil];
 }

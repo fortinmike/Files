@@ -84,12 +84,12 @@
 	return [_path stringByStandardizingPath];
 }
 
-- (NSArray *)pathComponents
+- (NSArray<NSString *> *)pathComponents
 {
 	return [[self path] pathComponents];
 }
 
-- (NSArray *)absolutePathComponents
+- (NSArray<NSString *> *)absolutePathComponents
 {
 	return [[self absolutePath] pathComponents];
 }

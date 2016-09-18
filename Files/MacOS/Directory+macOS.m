@@ -120,7 +120,7 @@
 	return [[self type] isEqualToString:@"com.apple.application-bundle"];
 }
 
-- (NSArray *)filesConformingToType:(CFStringRef)type
+- (NSArray<File *> *)filesConformingToType:(CFStringRef)type
 {
 	return [[self files] files_where:^BOOL(File *file) { return [file conformsToType:type]; }];
 }

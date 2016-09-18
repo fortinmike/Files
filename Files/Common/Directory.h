@@ -19,10 +19,10 @@
 #pragma mark On-Disk Inspection
 
 - (BOOL)isEmpty; // Returns whether the directory is empty or not.
-- (NSArray *)items; // Returns an array containing instances of File and Directory representing all of the items in the directory.
-- (NSArray *)files; // Returns an array of File objects, one for each file in the directory.
-- (NSArray *)filesWithExtension:(NSString *)extension; // Returns only files with the specified extension.
-- (NSArray *)subdirectories; // Returns an array of Directory objects, one for each directory in the directory.
+- (NSArray<Path *> *)items; // Returns an array containing instances of File and Directory representing all of the items in the directory.
+- (NSArray<File *> *)files; // Returns an array of File objects, one for each file in the directory.
+- (NSArray<File *> *)filesWithExtension:(NSString *)extension; // Returns only files with the specified extension.
+- (NSArray<Directory *> *)subdirectories; // Returns an array of Directory objects, one for each directory in the directory.
 
 #pragma mark Creating Other Directories
 

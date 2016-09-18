@@ -35,6 +35,6 @@
 
 - (BOOL)isBundle; // Returns whether the directory is a bundle (also know as a package).
 - (BOOL)isApplicationBundle; // Returns whether the directory is an application bundle (.app).
-- (NSArray *)filesConformingToType:(CFStringRef)type; // Returns all files that conform to the specified UTI.
+- (NSArray<File *> *)filesConformingToType:(CFStringRef)type; // Returns all files that conform to the specified UTI.
 
 @end
