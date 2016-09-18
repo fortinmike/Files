@@ -20,8 +20,15 @@
 // Note: Use system-defined constants when available for the methods below:
 // https://developer.apple.com/library/mac/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
 
-- (BOOL)isOfType:(CFStringRef)uti; // Returns whether the UTI of this file matches the specified UTI (use UTI constants if possible)
-- (BOOL)conformsToType:(CFStringRef)uti; // Checks whether the file conforms to the UTI (for example, a file of type public.mp3 would conform to public.audio)
+/**
+ Returns whether the UTI of this file matches the specified UTI (use UTI constants if possible).
+ */
+- (BOOL)isOfType:(CFStringRef)uti;
+
+/**
+ Checks whether the file conforms to the UTI (for example, a file of type public.mp3 would conform to public.audio).
+ */
+- (BOOL)conformsToType:(CFStringRef)uti;
 
 #pragma mark Operations
 
@@ -30,12 +37,39 @@
 
 #pragma mark Tags
 
-- (NSArray<Tag *> *)tags; // An array of Tag instances representing the (Mavericks and up) tags that are currently applied to the specified path
-- (void)setTags:(NSArray<NSString *> *)tagNames; // Replaces the file's current tags with the specified array of tag names
-- (void)addTag:(NSString *)name; // Tags the file with the specified tag name. Won't add the tag if the file already has it.
-- (void)removeTag:(NSString *)tagName; // Removes the tag if present
+/**
+ An array of Tag instances representing the (Mavericks and up) tags that are currently applied to the specified path.
+ */
+- (NSArray<Tag *> *)tags;
+
+/**
+ Replaces the item's current tags with the specified array of tag names.
+ */
+- (void)setTags:(NSArray<NSString *> *)tagNames;
+
+/**
+ Tags the item with the specified tag name. Won't add the tag if the file already has it.
+ */
+- (void)addTag:(NSString *)name;
+
+/**
+ Removes the tag if present.
+ */
+- (void)removeTag:(NSString *)tagName;
+
+/**
+ Removes all tags.
+ */
 - (void)removeAllTags;
-- (void)toggleTag:(NSString *)tagName; // Either adds or removes the tag, depending on whether the file already has the specified tag applied
-- (BOOL)hasTag:(NSString *)tagName; // Checks whether the file is tagged with the specified tag name
+
+/**
+ Either adds or removes the tag, depending on whether the file already has the specified tag applied.
+ */
+- (void)toggleTag:(NSString *)tagName;
+
+/**
+ Checks whether the file is tagged with the specified tag name.
+ */
+- (BOOL)hasTag:(NSString *)tagName;
 
 @end

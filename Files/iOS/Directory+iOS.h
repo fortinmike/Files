@@ -12,13 +12,44 @@
 
 #pragma mark System Directories
 
-+ (instancetype)appBundle; // Returns the directory of the currently running app's application bundle.
-+ (instancetype)library; // Returns the Library directory in the app's sandbox
-+ (instancetype)applicationSupport; // Returns the "Library/Application Support" directory in the app's sandbox
-+ (instancetype)caches; // Returns the "Library/Caches" directory in the app's sandbox
-+ (instancetype)documents; // Returns the Documents directory in the app's sandbox
-+ (instancetype)resources; // Returns the currently running app's Resources directory (in the app's bundle).
-+ (instancetype)resourcesInBundle:(NSBundle *)bundle; // Returns the path of the Resources directory in the specified bundle.
-+ (instancetype)temp; // Returns a temporary directory specific to the currently running app. Always returns the same directory.
+/**
+ Returns the directory of the currently running app's application bundle.
+ */
++ (instancetype)appBundle;
+
+/**
+ Returns the Library directory in the app's sandbox.
+ */
++ (instancetype)library;
+
+/**
+ Returns the "Library/Application Support" directory in the app's sandbox.
+ */
++ (instancetype)applicationSupport;
+
+/**
+ Returns the "Library/Caches" directory in the app's sandbox.
+ */
++ (instancetype)caches;
+
+/**
+ Returns the Documents directory in the app's sandbox.
+ */
++ (instancetype)documents;
+
+/**
+ Returns the currently running app's Resources directory (in the app's bundle).
+ */
++ (instancetype)resources;
+
+/**
+ Returns the path of the Resources directory in the specified bundle.
+ */
++ (instancetype)resourcesInBundle:(NSBundle *)bundle;
+
+/**
+ Returns a temporary directory specific to the currently running app. Always returns the same directory.
+ */
++ (instancetype)temp;
 
 @end
