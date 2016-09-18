@@ -1,25 +1,23 @@
 //
-//  MFTag.m
+//  Tag.m
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2014-02-13.
 //  Copyright (c) 2014 irradiated.net. All rights reserved.
 //
 
-#import "MFTag.h"
+#import "Tag.h"
 #import "NSException+FilesAdditions.h"
-#import "NSColor+Additions.h"
 
-@interface MFTag ()
+@interface Tag ()
 
 @property (strong) NSString *name;
 @property (strong) NSColor *color;
-@property (strong) NSColor *darkerColor;
 @property (assign) NSUInteger colorNumber;
 
 @end
 
-@implementation MFTag
+@implementation Tag
 
 - (id)init
 {
@@ -43,7 +41,6 @@
         _name = name;
 		_colorNumber = colorNumber;
 		_color = colors[@(colorNumber)];
-		_darkerColor = [_color darkerByPercent:0.2];
     }
     return self;
 }

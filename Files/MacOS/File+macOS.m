@@ -9,6 +9,7 @@
 #import "File+macOS.h"
 #import "Path+macOS.h"
 #import "Directory+macOS.h"
+#import "NSArray+FilesAdditions.h"
 
 @implementation File (OSX)
 

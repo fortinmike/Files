@@ -7,6 +7,7 @@
 //
 
 #import "Directory+macOS.h"
+#import "NSArray+FilesAdditions.h"
 
 @implementation Directory (OSX)
 

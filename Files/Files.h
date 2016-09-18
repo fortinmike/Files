@@ -6,8 +6,6 @@
 //  Copyright © 2016 fortinmike. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 //! Project version number for Files.
 FOUNDATION_EXPORT double FilesVersionNumber;
 

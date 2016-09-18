@@ -1,14 +1,14 @@
 //
-//  MFTag.h
+//  Tag.h
 //  Obsidian
 //
 //  Created by Michaël Fortin on 2014-02-13.
 //  Copyright (c) 2014 irradiated.net. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-@interface MFTag : NSObject
+@interface Tag : NSObject
 
 @property (readonly) NSString *name;
 @property (readonly) NSColor *color;
