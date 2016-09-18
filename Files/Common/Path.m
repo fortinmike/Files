@@ -271,7 +271,7 @@
 	return [[Path alloc] initWithPath:path]; // Can return instances of subclasses!
 }
 
-- (Path *)subitemWithNumberSuffixIfExists:(NSString *)name
+- (Path *)subitemWithNumericSuffixIfExists:(NSString *)name
 {
 	Path *candidatePath = [self subitem:name];
 	
@@ -299,21 +299,16 @@
 
 - (BOOL)delete
 {
-	return [self deleteAndSilenceLogging:NO];
-}
-
-- (BOOL)deleteAndSilenceLogging:(BOOL)silenceLogging
-{
-	BOOL itemExists = [[NSFileManager defaultManager] fileExistsAtPath:[self absolutePath]];
-	if (!itemExists) return YES;
-	
-	NSError *error = nil;
-	NSFileManager *manager = [NSFileManager defaultManager];
-	BOOL success = [manager removeItemAtPath:[self absolutePath] error:&error];
-	
-	if (error) NSLog(@"%@", error);
-	
-	return success && !error;
+    BOOL itemExists = [[NSFileManager defaultManager] fileExistsAtPath:[self absolutePath]];
+    if (!itemExists) return YES;
+    
+    NSError *error = nil;
+    NSFileManager *manager = [NSFileManager defaultManager];
+    BOOL success = [manager removeItemAtPath:[self absolutePath] error:&error];
+    
+    if (error) NSLog(@"%@", error);
+    
+    return success && !error;
 }
 
 // Overriden with more concrete parameter and return types
@@ -323,7 +318,7 @@
 	
 	if (overwrite)
 	{
-		BOOL deleted = [destination deleteAndSilenceLogging:YES];
+		BOOL deleted = [destination delete];
 		if (!deleted)
 		{
 			NSString *description = [NSString stringWithFormat:@"Could not delete item at path %@", [destination absolutePath]];

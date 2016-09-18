@@ -98,39 +98,34 @@
 
 - (File *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error
 {
-	return [self copyTo:destination overwrite:overwrite error:error silenceLogging:NO];
-}
-
-- (File *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error silenceLogging:(BOOL)silenceLogging
-{
-	if (destination == nil)
-		@throw [NSException exceptionWithReason:@"Destination is nil"];
-	
-	// Comparing absolute paths instead of objects because destination can be either an File or an Directory
-	if ([[destination absolutePath] isEqual:[self absolutePath]])
-		@throw [NSException exceptionWithReason:@"Trying to copy to same path"];
-	
-	if ([destination isKindOfClass:[Directory class]])
-	{
-		Directory *directory = (Directory *)destination;
-		
-		// If overwriting and we need to create a directory, delete whatever's at the path directory points to
-		if (overwrite) [directory deleteAndSilenceLogging:YES];
-		
-		destination = [directory file:[self name]];
-	}
-	
-	NSError *innerError = nil;
-	Path *path = [super copyTo:destination overwrite:overwrite error:&innerError];
-	
-	if (path == nil || innerError)
-	{
-		NSLog(@"%@", [innerError description]);
-		if (error) *error = innerError;
-		return nil;
-	}
-	
-	return [File fileWithPath:[path absolutePath]];
+    if (destination == nil)
+    @throw [NSException exceptionWithReason:@"Destination is nil"];
+    
+    // Comparing absolute paths instead of objects because destination can be either an File or an Directory
+    if ([[destination absolutePath] isEqual:[self absolutePath]])
+    @throw [NSException exceptionWithReason:@"Trying to copy to same path"];
+    
+    if ([destination isKindOfClass:[Directory class]])
+    {
+        Directory *directory = (Directory *)destination;
+        
+        // If overwriting and we need to create a directory, delete whatever's at the path directory points to
+        if (overwrite) [directory delete];
+        
+        destination = [directory file:[self name]];
+    }
+    
+    NSError *innerError = nil;
+    Path *path = [super copyTo:destination overwrite:overwrite error:&innerError];
+    
+    if (path == nil || innerError)
+    {
+        NSLog(@"%@", [innerError description]);
+        if (error) *error = innerError;
+        return nil;
+    }
+    
+    return [File fileWithPath:[path absolutePath]];
 }
 
 - (File *)moveTo:(Path *)destination
@@ -161,7 +156,7 @@
 	}
 	
 	NSError *innerError = nil;
-	File *outputFile = [self copyTo:destination overwrite:overwrite error:&innerError silenceLogging:YES];
+	File *outputFile = [self copyTo:destination overwrite:overwrite error:&innerError];
 	
 	if (innerError)
 	{
@@ -170,7 +165,7 @@
 		return nil;
 	}
 	
-	BOOL deleted = [self deleteAndSilenceLogging:YES];
+	BOOL deleted = [self delete];
 	
 	if (!deleted)
 	{
@@ -217,42 +212,37 @@
 
 - (BOOL)writeData:(NSData *)data overwrite:(BOOL)overwrite error:(NSError **)error
 {
-	return [self writeData:data overwrite:overwrite error:error silenceLogging:NO];
-}
-
-- (BOOL)writeData:(NSData *)data overwrite:(BOOL)overwrite error:(NSError **)error silenceLogging:(BOOL)silenceLogging
-{
-	if (data == nil) @throw [NSException exceptionWithReason:@"No data to write!"];
-	
-	if (!overwrite && [self itemExists])
-	{
-		NSString *description = [NSString stringWithFormat:@"Can't write data: A file already exists at path %@", [self absolutePath]];
-		NSLog(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:@"%@", description];
-		return NO;
-	}
-	
-	if (overwrite)
-	{
-		if (![self deleteAndSilenceLogging:YES])
-		{
-			NSString *description = [NSString stringWithFormat:@"Could not delete existing file at path %@", [self absolutePath]];
-			NSLog(@"%@", description);
-			if (error) *error = [NSError errorWithDescription:@"%@", description];
-			return NO;
-		}
-	}
-	
-	Directory *parent = [self parent];
-	if (![parent create])
-	{
-		NSString *description = [NSString stringWithFormat:@"Could not create intermediary directories for path %@", [parent absolutePath]];
-		NSLog(@"%@", description);
-		if (error) *error = [NSError errorWithDescription:@"%@", description];
-		return NO;
-	}
-	
-	return [data writeToFile:[self absolutePath] atomically:YES];
+    if (data == nil) @throw [NSException exceptionWithReason:@"No data to write!"];
+    
+    if (!overwrite && [self itemExists])
+    {
+        NSString *description = [NSString stringWithFormat:@"Can't write data: A file already exists at path %@", [self absolutePath]];
+        NSLog(@"%@", description);
+        if (error) *error = [NSError errorWithDescription:@"%@", description];
+        return NO;
+    }
+    
+    if (overwrite)
+    {
+        if (![self delete])
+        {
+            NSString *description = [NSString stringWithFormat:@"Could not delete existing file at path %@", [self absolutePath]];
+            NSLog(@"%@", description);
+            if (error) *error = [NSError errorWithDescription:@"%@", description];
+            return NO;
+        }
+    }
+    
+    Directory *parent = [self parent];
+    if (![parent create])
+    {
+        NSString *description = [NSString stringWithFormat:@"Could not create intermediary directories for path %@", [parent absolutePath]];
+        NSLog(@"%@", description);
+        if (error) *error = [NSError errorWithDescription:@"%@", description];
+        return NO;
+    }
+    
+    return [data writeToFile:[self absolutePath] atomically:YES];
 }
 
 - (NSOutputStream *)outputStreamToAppend:(BOOL)append
@@ -326,7 +316,7 @@
 	[archiver encodeObject:object forKey:@"root"];
 	[archiver finishEncoding];
 	
-	BOOL success = [self writeData:data overwrite:overwrite error:&innerError silenceLogging:YES];
+	BOOL success = [self writeData:data overwrite:overwrite error:&innerError];
 	
 	if (innerError)
 	{

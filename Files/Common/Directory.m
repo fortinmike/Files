@@ -130,9 +130,9 @@
 	return [self subdirectory:name];
 }
 
-- (Directory *)subdirectoryWithNumberSuffixIfExists:(NSString *)name
+- (Directory *)subdirectoryWithNumericSuffixIfExists:(NSString *)name
 {
-	Path *path = [self subitemWithNumberSuffixIfExists:name];
+	Path *path = [self subitemWithNumericSuffixIfExists:name];
 	return [Directory directoryWithPath:[path absolutePath]];
 }
 
@@ -161,7 +161,7 @@
 
 - (File *)fileWithNumberSuffixIfExists:(NSString *)name
 {
-	Path *path = [self subitemWithNumberSuffixIfExists:name];
+	Path *path = [self subitemWithNumericSuffixIfExists:name];
 	return [File fileWithPath:[path absolutePath]];
 }
 
@@ -176,7 +176,7 @@
 	NSArray *items = [self items];
 	
 	for (Path *item in items)
-		success &= [item deleteAndSilenceLogging:YES];
+		success &= [item delete];
 	
 	return success;
 }
@@ -276,27 +276,22 @@
 
 - (Directory *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error
 {
-	return [self copyTo:destination overwrite:overwrite error:error silenceLogging:NO];
-}
-
-- (Directory *)copyTo:(Path *)destination overwrite:(BOOL)overwrite error:(NSError **)error silenceLogging:(BOOL)silenceLogging
-{
-	if (destination == nil)
-		@throw [NSException exceptionWithReason:@"Destination is nil"];
-	
-	if ([destination isEqual:self])
-		@throw [NSException exceptionWithReason:@"Trying to copy to same path"];
-	
-	NSError *innerError = nil;
-	Path *path = [super copyTo:destination overwrite:overwrite error:&innerError];
-	
-	if (innerError && error)
-	{
-		*error = innerError;
-		return nil;
-	}
-	
-	return [Directory directoryWithPath:[path absolutePath]];
+    if (destination == nil)
+    @throw [NSException exceptionWithReason:@"Destination is nil"];
+    
+    if ([destination isEqual:self])
+    @throw [NSException exceptionWithReason:@"Trying to copy to same path"];
+    
+    NSError *innerError = nil;
+    Path *path = [super copyTo:destination overwrite:overwrite error:&innerError];
+    
+    if (innerError && error)
+    {
+        *error = innerError;
+        return nil;
+    }
+    
+    return [Directory directoryWithPath:[path absolutePath]];
 }
 
 - (Directory *)moveTo:(Directory *)destination
@@ -326,7 +321,7 @@
 	}
 	
 	NSError *innerError = nil;
-	Directory *outputDirectory = [self copyTo:destination overwrite:overwrite error:&innerError silenceLogging:YES];
+	Directory *outputDirectory = [self copyTo:destination overwrite:overwrite error:&innerError];
 	
 	if (innerError && error)
 	{
@@ -334,7 +329,7 @@
 		return nil;
 	}
 	
-	BOOL deleted = [self deleteAndSilenceLogging:YES];
+	BOOL deleted = [self delete];
 	
 	if (!deleted)
 	{
