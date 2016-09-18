@@ -18,9 +18,9 @@
 		4C129AD81D8B4ED700531DFB /* DirectoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AD51D8B4ED700531DFB /* DirectoryTests.m */; };
 		4C129AD91D8B4ED700531DFB /* FileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AD71D8B4ED700531DFB /* FileTests.m */; };
 		4C129ADE1D8B4F5E00531DFB /* TestEnvironmentHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129ADD1D8B4F5E00531DFB /* TestEnvironmentHelpers.m */; };
-		4C129AE71D8B4FD200531DFB /* NSError+FilesAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129AE11D8B4FD200531DFB /* NSError+FilesAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C129AE71D8B4FD200531DFB /* NSError+FilesAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129AE11D8B4FD200531DFB /* NSError+FilesAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		4C129AE81D8B4FD200531DFB /* NSError+FilesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AE21D8B4FD200531DFB /* NSError+FilesAdditions.m */; };
-		4C129AE91D8B4FD200531DFB /* NSException+FilesAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129AE31D8B4FD200531DFB /* NSException+FilesAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C129AE91D8B4FD200531DFB /* NSException+FilesAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C129AE31D8B4FD200531DFB /* NSException+FilesAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		4C129AEA1D8B4FD200531DFB /* NSException+FilesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C129AE41D8B4FD200531DFB /* NSException+FilesAdditions.m */; };
 		4C605AA61D8B941A006BB076 /* Directory+iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C605AA21D8B941A006BB076 /* Directory+iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C605AA71D8B941A006BB076 /* Directory+iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C605AA31D8B941A006BB076 /* Directory+iOS.m */; };
@@ -234,9 +234,9 @@
 				4C129AC31D8B4E1700531DFB /* Directory.h in Headers */,
 				4C129AC71D8B4E1700531DFB /* Path.h in Headers */,
 				4C605AA81D8B941A006BB076 /* File+iOS.h in Headers */,
-				4C129AE91D8B4FD200531DFB /* NSException+FilesAdditions.h in Headers */,
 				4C605AA61D8B941A006BB076 /* Directory+iOS.h in Headers */,
 				4C129AC51D8B4E1700531DFB /* File.h in Headers */,
+				4C129AE91D8B4FD200531DFB /* NSException+FilesAdditions.h in Headers */,
 				4C129AE71D8B4FD200531DFB /* NSError+FilesAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
