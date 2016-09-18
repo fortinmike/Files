@@ -192,14 +192,14 @@
 		4C129AC01D8B4E1700531DFB /* macOS */ = {
 			isa = PBXGroup;
 			children = (
-				4C129AC11D8B4E1700531DFB /* Tag.h */,
-				4C129AC21D8B4E1700531DFB /* Tag.m */,
 				4C605AAA1D8B943D006BB076 /* Directory+macOS.h */,
 				4C605AAB1D8B943D006BB076 /* Directory+macOS.m */,
 				4C605AAC1D8B943D006BB076 /* File+macOS.h */,
 				4C605AAD1D8B943D006BB076 /* File+macOS.m */,
 				4CCA9E471D8F0F6200057FA7 /* Path+macOS.h */,
 				4CCA9E481D8F0F6200057FA7 /* Path+macOS.m */,
+				4C129AC11D8B4E1700531DFB /* Tag.h */,
+				4C129AC21D8B4E1700531DFB /* Tag.m */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -231,12 +231,12 @@
 		4C129AE01D8B4FD200531DFB /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4CCA9E4B1D8F110B00057FA7 /* NSArray+FilesAdditions.h */,
+				4CCA9E4C1D8F110B00057FA7 /* NSArray+FilesAdditions.m */,
 				4C129AE11D8B4FD200531DFB /* NSError+FilesAdditions.h */,
 				4C129AE21D8B4FD200531DFB /* NSError+FilesAdditions.m */,
 				4C129AE31D8B4FD200531DFB /* NSException+FilesAdditions.h */,
 				4C129AE41D8B4FD200531DFB /* NSException+FilesAdditions.m */,
-				4CCA9E4B1D8F110B00057FA7 /* NSArray+FilesAdditions.h */,
-				4CCA9E4C1D8F110B00057FA7 /* NSArray+FilesAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
