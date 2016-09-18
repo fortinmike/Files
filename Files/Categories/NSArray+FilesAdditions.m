@@ -12,12 +12,12 @@
 
 #pragma mark Creating Other Instances
 
-- (NSArray *)ct_arrayByRemovingObject:(id)object
+- (NSArray *)files_arrayByRemovingObject:(id)object
 {
-	return [self ct_arrayByRemovingObjectsInArray:@[object]];
+	return [self files_arrayByRemovingObjectsInArray:@[object]];
 }
 
-- (NSArray *)ct_arrayByRemovingObjectsInArray:(NSArray *)array
+- (NSArray *)files_arrayByRemovingObjectsInArray:(NSArray *)array
 {
 	NSMutableArray *newArray = [self mutableCopy];
 	[newArray removeObjectsInArray:array];
@@ -26,7 +26,7 @@
 
 #pragma mark Block-based Array Manipulation and Filtering
 
-- (id)ct_first:(CollectorConditionBlock)condition
+- (id)files_first:(CollectorConditionBlock)condition
 {
 	for (id object in self)
 		if (condition(object)) return object;
@@ -34,7 +34,7 @@
 	return nil;
 }
 
-- (NSArray *)ct_where:(CollectorConditionBlock)condition
+- (NSArray *)files_where:(CollectorConditionBlock)condition
 {
 	NSMutableArray *selectedObjects = [NSMutableArray array];
 	
@@ -47,7 +47,7 @@
 	return [selectedObjects copy];
 }
 
-- (NSArray *)ct_map:(CollectorValueBlock)valueBlock
+- (NSArray *)files_map:(CollectorValueBlock)valueBlock
 {
 	NSMutableArray *values = [NSMutableArray array];
 	
@@ -60,7 +60,7 @@
 	return [values copy];
 }
 
-- (NSArray *)ct_distinct
+- (NSArray *)files_distinct
 {
 	NSMutableArray *distinct = [NSMutableArray array];
 	
@@ -73,7 +73,7 @@
 	return [distinct copy];
 }
 
-- (BOOL)ct_any:(CollectorConditionBlock)testBlock
+- (BOOL)files_any:(CollectorConditionBlock)testBlock
 {
 	for (id object in self)
 		if (testBlock(object)) return YES;

@@ -17,15 +17,15 @@ typedef NSNumber * (^CollectorNumberBlock)(id object);
 
 #pragma mark Creating Other Instances
 
-- (NSArray *)ct_arrayByRemovingObject:(id)object;
-- (NSArray *)ct_arrayByRemovingObjectsInArray:(NSArray *)array;
+- (NSArray *)files_arrayByRemovingObject:(id)object;
+- (NSArray *)files_arrayByRemovingObjectsInArray:(NSArray *)array;
 
 #pragma mark Block-based Array Manipulation and Filtering
 
-- (id)ct_first:(CollectorConditionBlock)condition;
-- (NSArray *)ct_where:(CollectorConditionBlock)condition;
-- (NSArray *)ct_map:(CollectorValueBlock)gatheringBlock;
-- (NSArray *)ct_distinct;
-- (BOOL)ct_any:(CollectorConditionBlock)testBlock;
+- (id)files_first:(CollectorConditionBlock)condition;
+- (NSArray *)files_where:(CollectorConditionBlock)condition;
+- (NSArray *)files_map:(CollectorValueBlock)gatheringBlock;
+- (NSArray *)files_distinct;
+- (BOOL)files_any:(CollectorConditionBlock)testBlock;
 
 @end

@@ -122,7 +122,7 @@
 
 - (NSArray *)filesConformingToType:(CFStringRef)type
 {
-	return [[self files] ct_where:^BOOL(File *file) { return [file conformsToType:type]; }];
+	return [[self files] files_where:^BOOL(File *file) { return [file conformsToType:type]; }];
 }
 
 @end

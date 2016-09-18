@@ -83,7 +83,7 @@
 																format:&format errorDescription:&error];
 	
 	// Extract tags and colors
-	NSArray *tags = [plist ct_map:^id(NSString *value)
+	NSArray *tags = [plist files_map:^id(NSString *value)
 	{
 		NSArray *components = [value componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 		
@@ -103,12 +103,12 @@
 
 - (void)addTag:(NSString *)tagName
 {
-	[self setTags:[[[[self tags] ct_map:^id(Tag *tag) { return tag.name; }] arrayByAddingObject:tagName] ct_distinct]];
+	[self setTags:[[[[self tags] files_map:^id(Tag *tag) { return tag.name; }] arrayByAddingObject:tagName] files_distinct]];
 }
 
 - (void)removeTag:(NSString *)tagName
 {
-	[self setTags:[[[self tags] ct_map:^id(Tag *tag) { return tag.name; }] ct_arrayByRemovingObject:tagName]];
+	[self setTags:[[[self tags] files_map:^id(Tag *tag) { return tag.name; }] files_arrayByRemovingObject:tagName]];
 }
 
 - (void)removeAllTags
@@ -123,7 +123,7 @@
 
 - (BOOL)hasTag:(NSString *)tagName
 {
-	return [[self tags] ct_any:^BOOL(Tag *tag) { return [tag.name isEqualToString:tagName]; }];
+	return [[self tags] files_any:^BOOL(Tag *tag) { return [tag.name isEqualToString:tagName]; }];
 }
     
 #pragma mark Helpers

@@ -22,12 +22,12 @@
 
 + (instancetype)fileForResource:(NSString *)resourceName ofType:(CFStringRef)type inBundle:(NSBundle *)bundle
 {
-	NSArray *resources = [[[Directory resourcesInBundle:bundle] files] ct_where:^BOOL(File *file)
+	NSArray *resources = [[[Directory resourcesInBundle:bundle] files] files_where:^BOOL(File *file)
 	{
 		return [[file nameWithoutExtension] isEqualToString:resourceName];
 	}];
 	
-	return [resources ct_first:^BOOL(id object) { return [object conformsToType:type]; }];
+	return [resources files_first:^BOOL(id object) { return [object conformsToType:type]; }];
 }
 
 + (instancetype)fileForResource:(NSString *)resourceName ofType:(CFStringRef)type inBundleForClass:(Class)class
